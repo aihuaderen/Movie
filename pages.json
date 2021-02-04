@@ -8,12 +8,18 @@
 			
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	   {
+	        "path" : "pages/searchInfo/searchInfo",
+	        "style" : {}
+	    }
+	   	     
+	   ,
 		{
 			"path": "pages/index/index",
 			"style": {
 			}
-		}
-	    ,{
+		},
+		{
             "path" : "pages/detail/detail",
             "style" : {}
         }
@@ -29,12 +35,8 @@
             "path" : "pages/search/search",
             "style" : {
 			}
-        }
-        ,{
-            "path" : "pages/searchInfo/searchInfo",
-            "style" : {}
-        }
-        ,{
+        },
+				{
             "path" : "pages/Home/Home",
             "style" : {}
         }
@@ -72,7 +74,7 @@
 	        "selectedIconPath": "/static/images/tabBar/classify-current.png"
 	      },
 	      {
-	        "pagePath": "pages/search/search",
+	        "pagePath": "pages/searchInfo/searchInfo",
 	        "text": "搜索",
 	        "iconPath": "/static/images/tabBar/search.png",
 	        "selectedIconPath": "/static/images/tabBar/search-current.png"
