@@ -14,6 +14,7 @@
 
 <style lang="less">
 	/*每个页面公共css */
+		@import url("./static/iconfont/iconfont.css");
 	page {
 		background-color: #ffffff;
 		min-height: 100vh!important;
