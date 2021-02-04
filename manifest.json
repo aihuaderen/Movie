@@ -1,11 +1,8 @@
 {
     "name" : "AliVideo",
     "appid" : "",
-<<<<<<< HEAD
     "descriptionwxada007c45ccf9800" : "",
-=======
     "description" : "",
->>>>>>> 83dabd924753eb4208292e21e2f8aaff447d1cd3
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
@@ -60,11 +57,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-<<<<<<< HEAD
         "appid" : "wxada007c45ccf9800",
-=======
-        "appid" : "wxd933f2b13e15729e",
->>>>>>> 83dabd924753eb4208292e21e2f8aaff447d1cd3
         "setting" : {
             "urlCheck" : false,
             "es6" : true
