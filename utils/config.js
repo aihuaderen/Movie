@@ -1,4 +1,4 @@
 export default {
-	host: 'https://techoo.com.cn/api.php/provide'
+	host: 'http://81.70.197.102/api.php/provide'
 	
 }
