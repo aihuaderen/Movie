@@ -11,7 +11,10 @@
 		}
 	}
 </script>
-
-<style>
+<link rel="stylesheet" href="//at.alicdn.com/t/font_2364863_vyy7pgra2mp.css">
+<style lang="less">
 	/*每个页面公共css */
+	page{
+		height: 100%;
+	}
 </style>
