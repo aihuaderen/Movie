@@ -1,94 +1,82 @@
 {
-	"globalStyle" : {
-			"navigationBarTextStyle" : "white",
-			"navigationBarTitleText" : "云影城",
-			"navigationBarBackgroundColor" : "#323232",
-			"backgroundColor" : "#323232",
-			"navigationStyle" : "custom"
-			
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "云影城",
+		"navigationBarBackgroundColor": "#323232",
+		"backgroundColor": "#323232"
+		// "navigationStyle": "custom"
+
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/detail/detail",
+			"style": {}
+		},
+		{
 			"path": "pages/index/index",
-			"style": {
-			}
+			"style": {}
+		}, {
+			"path": "pages/category/category",
+			"style": {}
+		}, {
+			"path": "pages/personal/personal",
+			"style": {}
+		}, {
+			"path": "pages/search/search",
+			"style": {}
+		}, {
+			"path": "pages/searchInfo/searchInfo",
+			"style": {}
+		}, {
+			"path": "pages/Home/Home",
+			"style": {}
+		}, {
+			"path": "pages/Like/Like",
+			"style": {}
+		}, {
+			"path": "pages/Play/Play",
+			"style": {}
+		}, {
+			"path": "pages/classify/classify",
+			"style": {}
+		}, {
+			"path": "pages/special/special",
+			"style": {}
 		}
-	    ,{
-            "path" : "pages/detail/detail",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/category/category",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/personal/personal",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/search/search",
-            "style" : {
-			}
-        }
-        ,{
-            "path" : "pages/searchInfo/searchInfo",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/Home/Home",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/Like/Like",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/Play/Play",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/classify/classify",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/special/special",
-            "style" : {}
-        }
-    ],
+	],
 	"tabBar": {
-	    "color": "#555",
-	    "selectedColor": "#D43C33",
-	    "list": [
-	      {
-	        "pagePath": "pages/index/index",
-	        "text": "首页",
-	        "iconPath": "/static/images/tabBar/index.png",
-	        "selectedIconPath": "/static/images/tabBar/index-current.png"
-	      },
-	      {
-	        "pagePath": "pages/classify/classify",
-	        "text": "分类",
-	        "iconPath": "/static/images/tabBar/classify.png",
-	        "selectedIconPath": "/static/images/tabBar/classify-current.png"
-	      },
-	      {
-	        "pagePath": "pages/search/search",
-	        "text": "搜索",
-	        "iconPath": "/static/images/tabBar/search.png",
-	        "selectedIconPath": "/static/images/tabBar/search-current.png"
-	      },
-	      {
-	        "pagePath": "pages/special/special",
-	        "text": "专题",
-	        "iconPath": "/static/images/tabBar/special.png",
-	        "selectedIconPath": "/static/images/tabBar/special-current.png"
-	      },
-		  {
-		    "pagePath": "pages/personal/personal",
-		    "text": "我的",
-		    "iconPath": "/static/images/tabBar/personal.png",
-		    "selectedIconPath": "/static/images/tabBar/personal-current.png"
-		  }
-		] 
+		"color": "#555",
+		"selectedColor": "#D43C33",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "/static/images/tabBar/index.png",
+				"selectedIconPath": "/static/images/tabBar/index-current.png"
+			},
+			{
+				"pagePath": "pages/classify/classify",
+				"text": "分类",
+				"iconPath": "/static/images/tabBar/classify.png",
+				"selectedIconPath": "/static/images/tabBar/classify-current.png"
+			},
+			{
+				"pagePath": "pages/search/search",
+				"text": "搜索",
+				"iconPath": "/static/images/tabBar/search.png",
+				"selectedIconPath": "/static/images/tabBar/search-current.png"
+			},
+			{
+				"pagePath": "pages/special/special",
+				"text": "专题",
+				"iconPath": "/static/images/tabBar/special.png",
+				"selectedIconPath": "/static/images/tabBar/special-current.png"
+			},
+			{
+				"pagePath": "pages/personal/personal",
+				"text": "我的",
+				"iconPath": "/static/images/tabBar/personal.png",
+				"selectedIconPath": "/static/images/tabBar/personal-current.png"
+			}
+		]
 	}
 }
