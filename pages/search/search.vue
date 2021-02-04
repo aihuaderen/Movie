@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<text>搜索</text>
+		<input type="text" value="" placeholder="输入搜索关键词"/>
 	</view>
 </template>
 
@@ -15,5 +15,5 @@
 </script>
 
 <style lang="stylus">
-
+	
 </style>

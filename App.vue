@@ -11,10 +11,12 @@
 		}
 	}
 </script>
-<link rel="stylesheet" href="//at.alicdn.com/t/font_2364863_vyy7pgra2mp.css">
+
 <style lang="less">
 	/*每个页面公共css */
-	page{
-		height: 100%;
-	}
+	page {
+		background-color: #ffffff;
+		min-height: 100vh!important;
+		background: -webkit-linear-gradient(top,rgba(104, 130, 253, 1.0),rgba(104, 130, 253, 0.7), rgba(85, 170, 255, 0.05));
+		height : 100%;
 </style>
