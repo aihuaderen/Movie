@@ -54,7 +54,7 @@
 </script>
 
 <style lang="stylus">
-	@import url('/iconfont/iconfont.styl')
+	@import url('./iconfont/iconfont.styl')
 			.searchContainer
 					width 100%
 					height 100%
