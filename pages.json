@@ -3,17 +3,16 @@
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "云影城",
 		"navigationBarBackgroundColor": "#323232",
-		"backgroundColor": "#323232"
-		// "navigationStyle": "custom"
-
+		"backgroundColor": "#323232",
+		"navigationStyle": "custom"
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/detail/detail",
+			"path": "pages/index/index",
 			"style": {}
 		},
 		{
-			"path": "pages/index/index",
+			"path": "pages/detail/detail",
 			"style": {}
 		}, {
 			"path": "pages/category/category",
