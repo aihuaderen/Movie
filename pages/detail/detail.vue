@@ -1,5 +1,21 @@
 <template>
 	<view class="detailContainer" v-if="videoInfo.vod_name">
+		<!-- 自定义导航栏 -->
+		<view class="">
+			<view class="mp-header">
+				<view class="sys-head" :style="{ height: statusBarHeight }"></view>
+				<view class="serch-box" style="height: 43px;">
+					<view class="serch-wrapper flex">
+						<view class="logo">
+							<view class="iconfont icon-fanhuishangyiye" @tap="onreturn"></view>
+							<view class="middle"></view>
+							<view class="iconfont icon-fanhuishouye" @tap="onhome"></view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view style="height:63px"></view>
+		</view>
 		<!-- 头部 -->
 		<view class="header">
 			<view class="leftContent">
@@ -74,26 +90,41 @@
 
 <script>
 	import request from '../../utils/request.js'
+	const statusBarHeight = uni.getSystemInfoSync().statusBarHeight + 'px';
 	export default {
 		data() {
 			return {
 				isFload: true,
-				videoInfo:{}
+				videoInfo: {},
+				statusBarHeight: statusBarHeight
 			};
 		},
-		mounted(){
+		mounted() {
 			this.getVideoDetail();
 		},
 		methods: {
 			// 文字的展开和收起
-			fload(){
-			//改变isFload的状态
+			fload() {
+				//改变isFload的状态
 				this.isFload = !this.isFload;
 			},
 			// 获取视频详情数据
-			async getVideoDetail(){
-				let result = await request('/vod',{ac:'detail',ids:107})
+			async getVideoDetail() {
+				let result = await request('/vod', {
+					ac: 'detail',
+					ids: 107
+				})
 				this.videoInfo = result.list[0]
+			},
+			// 自定义导航栏返回上一页
+			onreturn(){
+							uni.navigateBack();
+			},
+			// 自定义导航栏返回首页
+			onhome(){
+				uni.switchTab({
+					url: '/pages/index/index'
+				});
 			}
 		}
 	}
@@ -101,9 +132,48 @@
 
 <style lang="less">
 	@import url("./iconfont/iconfont.less");
-
+	// 自义定导航栏
+	.mp-header {
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			z-index: 999;
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100%;
+			.serch-box{
+				width: 100%;
+				height: 120rpx;
+				background-size: 100% 100%;
+				padding-left: 20rpx;
+			}
+			.serch-wrapper {
+				height: 100%;
+				display: flex;
+				align-items: center;
+					.logo{
+						font-size: 33rpx;
+						color: #fff;
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						width: 130rpx;
+						height: 40rpx;
+						border-radius: 30rpx;
+						padding: 10rpx 20rpx;
+						border: 1rpx solid #94A8C1;
+						background-color: rgba(0,0,0,.1);
+						.middle{
+							width: 2rpx;
+							height: 40rpx;
+							background-color: rgba(0,0,0,.2);
+						}
+					}
+			}	
+		}
+		//详情页样式
 	.detailContainer {
-		padding:0 30rpx;
+		padding: 0 30rpx;
 
 		.header {
 			display: flex;
@@ -234,47 +304,57 @@
 			.show {
 				display: block;
 			}
-			.expansion{
+
+			.expansion {
 				text-align: center;
-				.iconfont{
+
+				.iconfont {
 					font-size: 28rpx;
 					line-height: 60rpx;
 					color: gray;
 				}
 			}
 		}
-		.recommend{
-			.header{
-				.iconfont{
+
+		.recommend {
+			.header {
+				.iconfont {
 					line-height: 100rpx;
 				}
-				.title{
+
+				.title {
 					font-size: 32rpx;
 					font-weight: bold;
 					line-height: 100rpx;
 					margin-left: 20rpx
 				}
 			}
-			.content{
-				.movieItem{
+
+			.content {
+				.movieItem {
 					width: 33.333%;
 					display: inline-block;
-					.smallImg{
+
+					.smallImg {
 						width: 180rpx;
 						height: 230rpx;
 						border-radius: 10rpx;
 					}
-					.movieName,.actor{
+
+					.movieName,
+					.actor {
 						width: 200rpx;
 						line-height: 38rpx;
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
 					}
-					.movieName{
+
+					.movieName {
 						font-size: 26rpx;
 					}
-					.actor{
+
+					.actor {
 						font-size: 20rpx;
 						color: gray;
 					}
