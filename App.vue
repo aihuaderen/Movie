@@ -13,10 +13,11 @@
 </script>
 
 <style lang="less">
+	@import "./static/iconfont/iconfont.css";
 	/*每个页面公共css */
 	page {
 		background-color: #ffffff;
 		min-height: 100vh!important;
 		background: -webkit-linear-gradient(top,rgba(104, 130, 253, 1.0),rgba(104, 130, 253, 0.7), rgba(85, 170, 255, 0.05));
-		height : 100%;
+		}
 </style>
