@@ -157,6 +157,8 @@
 </script>
 
 <style lang="less">
+	@import "./iconfont/iconfont.css";
+	
 	// 登录
 .header{
 	display: flex;
