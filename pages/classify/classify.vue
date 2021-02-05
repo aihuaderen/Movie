@@ -6,10 +6,6 @@
 			<view class="serch-box" style="height: 43px;">
 				<view class="serch-wrapper flex">
 					<view class="logo">
-						<!-- <image @tap="onreturn" class="logo_img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAzCAYAAACE92h3AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUZJREFUeNq82EsKwjAQBuD2mrrTrTdw4cKFINKmrSVK9QZexpsIrnQTp6IgtZk0zfwZmFDQ8DFlaB6pMSYBx4JyRnmjXCctCMzSdAKJVaYnUFhhLBHlNf6EjlYZxfndoDExSVANwaRArrJT9//Iypq+OajKGtu8aJWFgFxlR9f8qJgvWIZiPiBX2cHnLYVi2rcHQrpRj+lw7sdcGuNADqtDvk5RsT4QinVBrkH2Uuvm90EzWCW5K2iHiQV6Uu6k9zztcLGAV8Qmqx3mFvBBuUWAyefja4sCAbq6tECALlQhQNfqoBCgC80RIKzSkMU3R4DilUrsaRQCtJ5ofVGRY7QPKnZ2H9pIiGN1hgBdlWYIcFSlsPsYGyq1ztVDUcnVfBAqvWdxooibKA7doO7a6ph3bSyKvi/929GnEW6El5RTyjvl6iXAACUHYeTCFiIMAAAAAElFTkSuQmCC"></image>
-						<text class="logo_title">我的客户</text>
-						<image src="data:image/png;base64,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" 
-						class="customer_add" mode=""></image> -->
 						<view class="input">
 							<view class="circular"></view>
 							<view class="icon">
@@ -153,44 +149,24 @@ export default {
 
 <style lang="less" scoped>
 @import url("./iconfont/classify.less");
-.customer_add{
-	width: 40rpx;
-	height: 48rpx;
-	position: fixed;
-	right: 48rpx;
-}
+
 .mp-header_ {
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	width: 100%;
-	// background: red;
-	// background: #2C7FFB;
-	.serch-box{
-		width: 100%;
-		height: 120rpx;
-		// background: #2C7FFB;
-		background-size: 100% 100%;
-		padding-left: 20rpx;
-	}
+	position: fixed;
 }
 .mp-header {
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
-
 	z-index: 999;
 	position: fixed;
 	left: 0;
 	top: 0;
 	width: 100%;
+	padding: 0 20rpx;
 	// background: red;
 	// background: #2C7FFB;
-	.serch-box{
-		width: 100%;
-		height: 120rpx;
-		// background: #2C7FFB;
-		background-size: 100% 100%;
-		padding-left: 20rpx;
-	}
 	.serch-wrapper {
 		height: 100%;
 		display: flex;
@@ -255,16 +231,11 @@ export default {
 			}
 			
 		}
-		.logo_img {
-			width: 18rpx;
-			height: 33rpx;
-			position: fixed;
-			left: 15rpx;
-		}
 	}
 	
 }
 .contentContainer{
+	margin-top: 170rpx;
 	.navContainer{
 		// display: flex;
 		// align-content: center;
