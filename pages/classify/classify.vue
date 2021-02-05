@@ -108,7 +108,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="noDateDesc" >暂无资源，请联系站长</view>
+				<view class="noDateDesc" v-if="isHaveDate">暂无资源，请联系站长</view>				
 			</view>
 		</view>
 	</view>
@@ -134,7 +134,8 @@ export default {
 			t_id : '',
 			videoTotalList : [],//电影数据,
 			page : 1,
-			isShowNav : true
+			isShowNav : true,
+			isHaveDate : false
 		}
 	},
 	components:{
@@ -156,7 +157,8 @@ export default {
 			// console.log(this.pageScrollTo/this.mius/this.speed);
 			uni.pageScrollTo({
 			    scrollTop: 0,  //距离页面顶部的距离
-			    duration: times * 1000
+			    // duration: times * 1000
+				duration : 500
 			});
 		},
 		changeCategory1(index){
@@ -211,12 +213,14 @@ export default {
 			};
 			(this.areaIndex != -1) && (data.area = this.videoDataList[this.category1].area[this.areaIndex]);
 			(this.yearIndex != -1) && (data.year = this.videoDataList[this.category1].year[this.yearIndex]);
-			// console.log(data);
-			// console.log(this.videoDataList[this.category1].category[this.category2].type_id);
-			console.log(data);
+			uni.showLoading({  
+			    title: '加载中'  
+			});
+			this.isHaveDate = false;
 			let result = await request('/vod',data);
-			console.log(result);
+			uni.hideLoading();  
 			if(result.code == 1){
+				(result.list.length == 0) && (this.isHaveDate = true);
 				let arr = result.list.slice(0,9);
 				this.videoTotalList.push(...arr);
 			}
@@ -353,7 +357,7 @@ export default {
 				line-height: 90rpx;
 				.category{
 					color: #FFFFFF;
-					font-size: 45rpx;
+					font-size: 40rpx;
 					display: inline-block;
 					margin-right: 100rpx;
 					&.active{
