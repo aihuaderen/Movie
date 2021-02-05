@@ -36,12 +36,11 @@
 		<!-- 豆瓣评分 -->
 		<view class="score">
 			<view class="star">
-				<text class="douban">豆瓣:{{videoInfo.vod_douban_score}}</text>
-				<text class="iconfont icon-shixinxingxing"></text>
-				<text class="iconfont icon-shixinxingxing"></text>
-				<text class="iconfont icon-shixinxingxing"></text>
-				<text class="iconfont icon-shixinxingxing"></text>
-				<text class="iconfont icon-shixinxingxing1"></text>
+				<text class="douban">豆瓣:{{videoInfo.vod_score}}</text>
+				
+				<text class="iconfont icon-shixinxingxing" v-for="(item,index) in xinxinObj.wholeNum" :key="index"></text>
+				<text class="iconfont icon-shixinxingxing11" v-if="xinxinObj.isHalf"></text>
+				<text class="iconfont icon-shixinxingxing1" v-for="(item,index) in xinxinObj.whiteNum" :key="index"></text>
 			</view>
 			<view class="play" @click="toPlay">
 				<text class="iconfont icon-bofang"></text>
@@ -56,7 +55,7 @@
 		<view class="fload" :class="isFload ? 'hide' : 'show'">
 			{{videoInfo.vod_blurb}}
 		</view>
-		<view class="expansion">
+		<view class="expansion" v-if="arrowShow">
 			<text v-if="isFload" class="iconfont icon-xiangshangjiantouarrowup1" @click="fload">展开</text>
 			<text v-if="!isFload" class="iconfont icon-xiangshangjiantouarrowup" @click="fload">收起</text>
 		</view>
@@ -128,6 +127,24 @@
 				imageUrl: this.videoInfo.vod_pic
 			}
 		},
+		computed: {
+			// 星星
+			xinxinObj(){
+				if(!this.videoInfo.vod_score) return {wholeNum: 0, isHalf: 0, whiteNum: 5}
+				let wholeNum = Math.floor(this.videoInfo.vod_score / 2);
+				let isHalf = this.videoInfo.vod_score % 2 >= 1 ? true : false;
+				let whiteNum  = 5 - wholeNum - isHalf;
+				return {
+					wholeNum,
+					isHalf,
+					whiteNum
+				}
+			},
+			//简介展开
+			arrowShow(){
+				return this.videoInfo.vod_blurb &&  this.videoInfo.vod_blurb.trim().length > 75
+			}
+		},
 		methods: {
 			// 文字的展开和收起
 			fload() {
@@ -181,7 +198,6 @@
 
 <style lang="less">
 	@import url("./iconfont/iconfont.less");
-
 	// 自义定导航栏
 	.mp-header {
 		background-size: 100% 100%;
@@ -313,10 +329,9 @@
 						position: relative;
 						vertical-align: middle;
 						color: #EFD141;
-						font-size: 40rpx;
-						
+						font-size: 40rpx;	
 					}
-
+					
 					.icon-shixinxingxing1 {
 						color: #DCD9DB;
 					}

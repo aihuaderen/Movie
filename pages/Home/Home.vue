@@ -116,7 +116,7 @@
 		methods: {
 			async getInitData() {
 				let result = await request('/banner')
-				console.log(result.list)
+				// console.log(result.list)
 				this.banner = result.list
 
 				//视频列表的获取 电影

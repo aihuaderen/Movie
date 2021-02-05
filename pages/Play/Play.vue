@@ -101,7 +101,7 @@
 			},
 			//简介展开
 			arrowShow(){
-				return this.videoInfo.vod_blurb &&  this.videoInfo.vod_blurb.length > 85
+				return this.videoInfo.vod_blurb &&  this.videoInfo.vod_blurb.trim().length > 85
 			}
 		},
 		onLoad(options) {
@@ -127,12 +127,7 @@
 			},
 			//返回按钮 返回到详情页
 			backbtn() {
-				uni.navigateTo({
-					url: '/pages/detail/detail',
-					success: res => {},
-					fail: () => {},
-					complete: () => {}
-				});
+				wx.navigateBack();
 			},
 			fload() {
 				//改变isFload的状态
