@@ -3,10 +3,10 @@
 		<!-- 导航栏 -->
 		<view class="bar">
 			<text class="iconfont icon-fanhui backbtn" @tap="backbtn"></text>
-			<text class="vname">{{videoInfo.vod_name.length > 10 ? videoInfo.vod_name.slice(0,10) + '...' : videoInfo.vod_name}}</text>
+			<text class="vname">硅谷影院</text>
 		</view>
 		<view class="videoWrap">
-			<video id="myVideo" src="https://vd2.bdstatic.com/mda-ke9s31k9fwjvvuac/v1-cae/sc/mda-ke9s31k9fwjvvuac.mp4?v_from_s=tc_videoui_4135&auth_key=1612432562-0-0-c258d702221add774d5ce041c914c9cf&bcevod_channel=searchbox_feed&pd=1&pt=3&abtest=8_2"
+			<video id="myVideo" :src="currentPlayUrl"
 			 controls></video>
 		</view>
 		<view class="info">
@@ -43,8 +43,8 @@
 			</view>
 			<view class="videoNum">
 				<view class="select iconfont icon-ic_batch_default24px">选集</view>
-				<scroll-view class="videoScroll" scroll-x enable-flex>
-					<view v-for="(item,index) in playArr" :key="index">{{item.pname}}</view>
+				<scroll-view class="videoScroll" scroll-x enable-flex v-if="playArr.length">
+					<view :class="{active: item.pname === currentPlayName}" v-for="(item,index) in playArr" :key="index" @tap="changePlayInfo(item)">{{item.pname}}</view>
 				</scroll-view>
 			</view>
 			<view class="desc">
@@ -63,12 +63,13 @@
 		</view>
 
 		<view class="share-item" :class="{'share-show': shareState}"></view>
-		<Share :videoData="playArr" :popupState="popupState" @changePopupState="changePopupState"></Share>
+		<Share :currentPlayName="currentPlayName" :currentPlayUrl="currentPlayUrl" :videoData="playArr" :popupState="popupState" @changePopupState="changePopupState" @changePlayInfo="changePlayInfo"></Share>
 	</view>
 </template>
 
 <script>
 	import Share from '../../components/Share/Share.vue'
+	import request from '../../utils/request.js'
 	export default {
 		data() {
 			return {
@@ -76,18 +77,10 @@
 				isFload: true,
 				speed: 1.0,
 				speedArr: [1.0, 1.5, 2.0, 0.5, 0.8],
-				videoInfo: {
-					"vod_id": 140,
-					"vod_name": "手枪大屠杀",
-					"vod_en": "shouqiangdatusha",
-					"vod_class": "剧情",
-					"vod_pic": "https://images.cnblogsc.com/pic/upload/vod/2021-02/1612338739.jpg",
-					"vod_blurb": "日活暴力粉紅導演長谷部安春1967年的作品，並以藤井鷹史之名參與撰寫劇本。宍戶錠、藤竜也和岡崎二朗飾演的黑田家三兄弟反抗殘酷黑幫組織的，最後的決戰由長男單槍匹馬大戰敵人，更是硬派的動作場面中的經典場面",
-					"vod_remarks": "BD",
-					"vod_content": " 日活暴力粉紅導演長谷部安春1967年的作品，並以藤井鷹史之名參與撰寫劇本。宍戶錠、藤竜也和岡崎二朗飾演的黑田家三兄弟反抗殘酷黑幫組織的，最後的決戰由長男單槍匹馬大戰敵人，更是硬派的動作場面中的經典場面。</p>",
-					"type_name": "动漫",
-					"play_url": "第01集$https://iqiyi.cdn9-okzy.com/share/4c8f406722770fc2d19f15a4fa6738ff#第02集$https://iqiyi.cdn9-okzy.com/share/bcc226682d1d98b133661163114ba831#第03集$https://iqiyi.cdn9-okzy.com/share/92876ef2d2fb0dc247ca63781726025c#第04集$https://iqiyi.cdn9-okzy.com/share/b6bcdc5176f139f9c4c0036b123ee12d#第05集$https://iqiyi.cdn9-okzy.com/share/4a91a2632259bfeb28c052069c558843#第06集$https://iqiyi.cdn9-okzy.com/share/0ceed3b289e76c7f6ac4cdd6083a0966#第07集$https://iqiyi.cdn9-okzy.com/share/b99c61acedb54c5253819b7b4f2d88c6#第08集$https://iqiyi.cdn9-okzy.com/share/cdf8cce6a4faee958d05df52054add74#第09集$https://iqiyi.cdn9-okzy.com/share/ed1dac006b5ef6170e646d7eb9ee2d1a$$$第01集$https://iqiyi.cdn9-okzy.com/20210102/20341_a727de7b/index.m3u8#第02集$https://iqiyi.cdn9-okzy.com/20210102/20340_c3eca773/index.m3u8#第03集$https://iqiyi.cdn9-okzy.com/20210108/20593_8d006ca9/index.m3u8#第04集$https://iqiyi.cdn9-okzy.com/20210109/20638_c023b69f/index.m3u8#第05集$https://iqiyi.cdn9-okzy.com/20210115/20880_263b8925/index.m3u8#第06集$https://iqiyi.cdn9-okzy.com/20210117/20994_f8c05079/index.m3u8#第07集$https://iqiyi.cdn9-okzy.com/20210122/21252_6bd335ed/index.m3u8#第08集$https://iqiyi.cdn9-okzy.com/20210124/21358_a5a3a1c0/index.m3u8#第09集$https://iqiyi.cdn9-okzy.com/20210130/21701_5a9e737a/index.m3u8",
-				}
+				videoId: '',
+				currentPlayName: '',
+				currentPlayUrl: '',
+				videoInfo: { }
 			};
 		},
 		computed: {
@@ -97,7 +90,8 @@
 			},
 			//播放集数
 			playArr(){
-				return this.videoInfo.play_url.split("$$$")[0].split('#').map(item => {
+				if(!this.videoInfo.vod_play_url) return [];
+				return this.videoInfo.vod_play_url.split('#').map(item => {
 					let infoArr = item.split('$');
 					return {
 						pname: infoArr[0],
@@ -110,18 +104,45 @@
 				return this.videoInfo.vod_blurb &&  this.videoInfo.vod_blurb.length > 85
 			}
 		},
-		created(res) {
-			console.log(this.videoInfo.play_url)
-			this.videoContext = uni.createVideoContext('myVideo')
+		onLoad(options) {
+			//根据id发请求获取视频详情
+			this.getVideoDetail(options.id)
+			this.videoContext = uni.createVideoContext('myVideo');
 		},
 		methods: {
-			//返回按钮
+			//根据id发请求获取视频详情
+			async getVideoDetail(id){
+				let result = await request('/vod', {ac: 'detail', ids: id});
+				if(result.total === 0) {
+					return uni.showToast({
+						title: '数据获取失败',
+						duration: 2000
+					})
+				}
+				this.videoInfo = result.list[0]
+				
+				//设置播放名和播放链接
+				this.currentPlayName = this.playArr[0].pname;
+				this.currentPlayUrl = this.playArr[0].purl;
+			},
+			//返回按钮 返回到详情页
 			backbtn() {
-				console.log('返回上一层')
+				uni.navigateTo({
+					url: '/pages/detail/detail',
+					success: res => {},
+					fail: () => {},
+					complete: () => {}
+				});
 			},
 			fload() {
 				//改变isFload的状态
 				this.isFload = !this.isFload;
+			},
+			//更改播放集数
+			changePlayInfo(playInfo){
+				if(this.currentPlayName === playInfo.pname) return;
+				this.currentPlayName = playInfo.pname;
+				this.currentPlayUrl = playInfo.purl;
 			},
 			//收藏
 			collect(){
@@ -229,8 +250,8 @@
 
 		.vname {
 			position: absolute;
-			top: 50%;
-			left: 40%;
+			top: 52%;
+			left: 45%;
 			transform: translate(-50%, -20%);
 		}
 	}
@@ -309,14 +330,17 @@
 				height: 70rpx;
 
 				view {
-					flex: 0 0 120rpx;
+					flex-shrink: 0;
+					padding: 0 18rpx;
 					margin-right: 20rpx;
 					line-height: 70rpx;
 					text-align: center;
 					font-size: 26rpx;
-					background-color: #FFD04E;
+					background-color: #E3E3E3;
 					border-radius: 5rpx;
-
+					&.active {
+						background-color: #FFD04E;
+					}
 				}
 			}
 		}
