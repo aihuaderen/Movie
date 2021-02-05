@@ -4,7 +4,7 @@
         </view>
         <view class="share-item" :class="{'share-show': popupState}">
             <view class="content">
-					<view v-for="(item,index) in videoData" :key="index">{{item.pname}}</view>
+					<view :class="{active: item.pname === currentPlayName}" v-for="(item,index) in videoData" :key="index" @tap="changePlayInfo(item)">{{item.pname}}</view>
             </view>
         </view>
     </view>
@@ -12,12 +12,16 @@
 
 <script>
     export default {
-        props: ['popupState', 'videoData'],
+        props: ['popupState', 'videoData' , 'currentPlayName', 'currentPlayUrl'],
         methods: {
             // 隐藏分享
             handleHiddenShare () {
                 this.$emit("changePopupState")
-            }
+            },
+			changePlayInfo(item){
+				this.$emit('changePlayInfo',item)
+				this.$emit("changePopupState")
+			}
         }
     }
 </script>
@@ -33,12 +37,12 @@
         position: fixed;
         top: 0rpx; left: 0rpx; bottom: 0rpx; right: 0rpx;
         background-color: rgba(0, 0, 0, 0.4);
-        transition: .3s;
+        transition: .4s;
         z-index: 999;
     }
     // 进入分享动画
     .share-show {
-        transition: all 0.3s ease;
+        transition: all 0.4s ease;
         transform: translateY(0%) !important;
     }
     // 离开分享动画
@@ -49,7 +53,7 @@
         width: 100%;
         height: auto;
         background-color: #FFFFFF;
-        transition: all 0.3s ease;
+        transition: all 0.4s ease;
         transform: translateY(100%);
         z-index: 1999;
         .content {
@@ -62,13 +66,16 @@
 			view {
 				margin: 20rpx;
 				height: 60rpx;
-				padding: 15rpx 35rpx;
+				padding: 10rpx 30rpx;
 				line-height: 60rpx;
 				text-align: center;
 				flex-shrink: 0;
 				font-size: 26rpx;
-				background-color: #FFD04E;
+				background-color: #E3E3E3;
 				border-radius: 5rpx;
+				&.active {
+					background-color: #FFD04E;
+				}
 			}
         }
     }
