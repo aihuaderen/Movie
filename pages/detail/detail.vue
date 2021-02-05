@@ -37,47 +37,48 @@
 		<view class="score">
 			<view class="star">
 				<text class="douban">豆瓣:{{videoInfo.vod_douban_score}}</text>
-				<text class="iconfont icon-start-copy1"></text>
-				<text class="iconfont icon-start-copy1"></text>
-				<text class="iconfont icon-start-copy1"></text>
-				<text class="iconfont icon-start-copy1"></text>
-				<text class="iconfont icon-start2"></text>
+				<text class="iconfont icon-shixinxingxing"></text>
+				<text class="iconfont icon-shixinxingxing"></text>
+				<text class="iconfont icon-shixinxingxing"></text>
+				<text class="iconfont icon-shixinxingxing"></text>
+				<text class="iconfont icon-shixinxingxing1"></text>
 			</view>
 			<view class="play" @click="toPlay">
 				<text class="iconfont icon-bofang"></text>
 				<text class="start">开始播放</text>
 			</view>
 		</view>
-		<!-- 影片简介 -->
-		<view class="introduction">
-			<text class="iconfont icon-jianjie"></text>
-			<text class="title">影片简介</text>
-			<view class="fload" :class="isFload ? 'hide' : 'show'">
-				{{videoInfo.vod_blurb}}
-			</view>
-			<view class="expansion">
-				<text v-if="isFload" class="iconfont icon-xiangshangjiantouarrowup1" @click="fload">展开</text>
-				<text v-if="!isFload" class="iconfont icon-xiangshangjiantouarrowup" @click="fload">收起</text>
-			</view>
+
+	<!-- 影片简介 -->
+	<view class="introduction">
+		<text class="iconfont icon-jianjie"></text>
+		<text class="title">影片简介</text>
+		<view class="fload" :class="isFload ? 'hide' : 'show'">
+			{{videoInfo.vod_blurb}}
 		</view>
-		<!-- 精彩推荐 -->
-		<view class="recommend">
-			<view class="header">
-				<text class="iconfont icon-huo"></text>
-				<text class="title">精彩推荐</text>
-			</view>
-			<view class="content">
-				<scroll-view scroll-x="true" enable-flex>
-					<view class="movieItem" v-for="video in videoList" :key="video.vod_id" 
-					@click="toCurrent(video.vod_id)">
-						<view class="top">{{video.vod_score}}</view>
-						<image class="smallImg" :src="video.vod_pic" mode=""></image>
-						<view class="movieName">{{video.vod_name}}</view>
-						<view class="actor">{{video.vod_actor}}</view>
-					</view>
-				</scroll-view>
-			</view>
+		<view class="expansion">
+			<text v-if="isFload" class="iconfont icon-xiangshangjiantouarrowup1" @click="fload">展开</text>
+			<text v-if="!isFload" class="iconfont icon-xiangshangjiantouarrowup" @click="fload">收起</text>
 		</view>
+	</view>
+	<!-- 精彩推荐 -->
+	<view class="recommend">
+		<view class="header">
+			<text class="iconfont icon-huo"></text>
+			<text class="title">精彩推荐</text>
+		</view>
+		<view class="content">
+			<scroll-view scroll-x="true" enable-flex>
+				<view class="movieItem" v-for="video in videoList" :key="video.vod_id" 
+				@click="toCurrent(video.vod_id)">
+					<view class="top">{{video.vod_score}}</view>
+					<image class="smallImg" :src="video.vod_pic" mode=""></image>
+					<view class="movieName">{{video.vod_name}}</view>
+					<view class="actor">{{video.vod_actor}}</view>
+				</view>
+			</scroll-view>
+		</view>
+	</view>
 	</view>
 </template>
 
@@ -88,40 +89,44 @@
 		data() {
 			return {
 				isFload: true,
-				videoInfo: {},//视频详情数据
-				videoList:[],//精彩推荐数据
+				vid: '',
+				vtypeId: '',
+				videoInfo: {}, //视频详情数据
+				videoList: [], //精彩推荐数据
 				statusBarHeight: statusBarHeight
 			};
 		},
-		mounted() {
-			this.getVideoDetail();
-			this.getHotRecommended();
+		onLoad(options) {
+			this.vtypeId = options.t;
+			this.vid = options.id;
+			this.getVideoDetail(options.id);
+			this.getHotRecommended(options.t);
 		},
 		// 转发
 		onShareAppMessage(res) {
 			if (res.from === 'button') {
-			      // 来自页面内转发按钮
-					return{
-						title:'快来和朋友一起看电影啦!',
-						path: '/pages/index/index',
-						imageUrl:this.videoInfo.vod_pic
-					}
-				}else if(res.from === 'menu'){
-					// 来自右上角转发菜单
-					return{
-						title:'快来和朋友一起看电影啦!',
-						path: '/pages/index/index',
-						imageUrl:this.videoInfo.vod_pic
-					}
+				// 来自页面内转发按钮
+				return {
+					title: '快来和朋友一起看电影啦!',
+					path: '/pages/index/index',
+					imageUrl: this.videoInfo.vod_pic
 				}
+			} else if (res.from === 'menu') {
+				// 来自右上角转发菜单
+				return {
+					title: '快来和朋友一起看电影啦!',
+					path: '/pages/index/index',
+					imageUrl: this.videoInfo.vod_pic
+				}
+			}
 		},
 		// 分享到朋友圈
 		onShareTimeline: function() {
-		    return {
-		      title: '我分享了一个好看的电影,快来看看吧!',
-		      path: '/pages/detail/detail',
-		      imageUrl:this.videoInfo.vod_pic
-		    }
+			return {
+				title: '我分享了一个好看的电影,快来看看吧!',
+				path: '/pages/detail/detail',
+				imageUrl: this.videoInfo.vod_pic
+			}
 		},
 		methods: {
 			// 文字的展开和收起
@@ -130,41 +135,45 @@
 				this.isFload = !this.isFload;
 			},
 			// 获取视频详情数据
-			async getVideoDetail() {
+			async getVideoDetail(id) {
 				let result = await request('/vod', {
 					ac: 'detail',
-					ids: 1569
+					ids: id
 				})
 				this.videoInfo = result.list[0]
 			},
 			// 获取精彩推荐数据
-			async getHotRecommended(){
-				let result = await request('/vod',{ac:'detail',sort:'hits',t:1})
+			async getHotRecommended(t) {
+				let result = await request('/vod', {
+					ac: 'detail',
+					sort: 'hits',
+					t: t
+				})
 				this.videoList = result.list
 			},
 			// 自定义导航栏返回上一页
-			onreturn(){
-							uni.navigateBack();
+			onreturn() {
+				uni.navigateBack();
 			},
 			// 自定义导航栏返回首页
-			onhome(){
+			onhome() {
 				uni.switchTab({
 					url: '/pages/index/index'
 				});
 			},
 			// 跳转到播放页面
-			toPlay(){
+			toPlay() {
 				wx.navigateTo({
-					url:'/pages/Play/Play'
+					url: '/pages/Play/Play?id='+this.vid
 				})
 			},
 			//跳转到当前页面
-			async toCurrent(id){
-					let result = await request('/vod', {
-						ac: 'detail',
-						ids: id
-					})
-					this.videoInfo = result.list[0]
+			async toCurrent(id) {
+				let result = await request('/vod', {
+					ac: 'detail',
+					ids: id
+				})
+				this.videoInfo = result.list[0]
 			}
 		}
 	}
@@ -172,46 +181,52 @@
 
 <style lang="less">
 	@import url("./iconfont/iconfont.less");
+
 	// 自义定导航栏
 	.mp-header {
-			background-size: 100% 100%;
-			background-repeat: no-repeat;
-			z-index: 2;
-			position: fixed;
-			left: 0;
-			top: 0;
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		z-index: 2;
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+
+		.serch-box {
 			width: 100%;
-			.serch-box{
-				width: 100%;
-				height: 120rpx;
-				background-size: 100% 100%;
-				padding-left: 20rpx;
-			}
-			.serch-wrapper {
-				height: 100%;
+			height: 120rpx;
+			background-size: 100% 100%;
+			padding-left: 20rpx;
+		}
+
+		.serch-wrapper {
+			height: 100%;
+			display: flex;
+			align-items: center;
+
+			.logo {
+				font-size: 33rpx;
+				color: #fff;
 				display: flex;
 				align-items: center;
-					.logo{
-						font-size: 33rpx;
-						color: #fff;
-						display: flex;
-						align-items: center;
-						justify-content: space-between;
-						width: 130rpx;
-						height: 40rpx;
-						border-radius: 30rpx;
-						padding: 10rpx 20rpx;
-						border: 1rpx solid #94A8C1;
-						background-color: rgba(0,0,0,.1);
-						.middle{
-							width: 2rpx;
-							height: 40rpx;
-							background-color: rgba(0,0,0,.2);
-						}
-					}
-			}	
+				justify-content: space-between;
+				width: 130rpx;
+				height: 40rpx;
+				border-radius: 30rpx;
+				padding: 10rpx 20rpx;
+				border: 1rpx solid #94A8C1;
+				background-color: rgba(0, 0, 0, .1);
+
+				.middle {
+					width: 2rpx;
+					height: 40rpx;
+					background-color: rgba(0, 0, 0, .2);
+				}
+			}
 		}
-		//详情页样式
+	}
+
+	//详情页样式
 	.detailContainer {
 		padding: 0 30rpx;
 
@@ -247,11 +262,12 @@
 				font-size: 34rpx;
 				font-weight: bold;
 			}
-			
-			.update{
+
+			.update {
 				font-size: 22rpx;
 				color: red;
 			}
+
 			.title,
 			.actor,
 			.year {
@@ -264,7 +280,7 @@
 				display: flex;
 
 				.iconfont {
-					margin:10rpx;
+					margin: 10rpx;
 					width: 150rpx;
 					line-height: 50rpx;
 					font-size: 28rpx;
@@ -291,16 +307,20 @@
 					font-weight: bold;
 					margin-right: 30rpx;
 				}
+				
 
-				.iconfont {
-					vertical-align: middle;
-					color: #EFD141;
-					font-size: 40rpx;
-				}
+					.iconfont {
+						position: relative;
+						vertical-align: middle;
+						color: #EFD141;
+						font-size: 40rpx;
+						
+					}
 
-				.icon-start2 {
-					color: #DCD9DB;
-				}
+					.icon-shixinxingxing1 {
+						color: #DCD9DB;
+					}
+
 			}
 
 			.play {
@@ -376,12 +396,13 @@
 
 			.content {
 				white-space: nowrap;
+
 				.movieItem {
 					position: relative;
 					width: 33.333%;
 					display: inline-block;
-					
-					.top{
+
+					.top {
 						position: absolute;
 						top: 0;
 						left: 0;
@@ -393,6 +414,7 @@
 						z-index: 1;
 						font-size: 26rpx;
 					}
+
 					.smallImg {
 						width: 180rpx;
 						height: 230rpx;
