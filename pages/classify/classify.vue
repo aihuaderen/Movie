@@ -141,30 +141,37 @@ export default {
 			this.areaIndex = -1,
 			this.yearIndex = -1,
 			this.chooseType = 'time',
+			this.videoTotalList = [],
 			this.getVideoData();
 		},
 		changeCategory2(index){
 			this.category2 = index;
+			this.videoTotalList = [],
 			this.getVideoData();
 		},
 		changeArea(index){
 			this.areaIndex = index;
+			this.videoTotalList = [],
 			this.getVideoData();
 		},
 		changeYear(index){
 			this.yearIndex = index;
+			this.videoTotalList = [],
 			this.getVideoData();   
 		},
 		changeHot(index){
 			this.chooseType = 'hits';
+			this.videoTotalList = [],
 			this.getVideoData();   
 		},
 		changeTime(index){
 			this.chooseType = 'time';
+			this.videoTotalList = [],
 			this.getVideoData();   
 		},
 		changeScores(index){
 			this.chooseType = 'scores';
+			this.videoTotalList = [],
 			this.getVideoData();   
 		},
 		// 请求数据
