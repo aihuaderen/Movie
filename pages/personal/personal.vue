@@ -193,7 +193,7 @@
 				// 		key:'userInfo',
 				// 		data:res.detail.userInfo
 				// 	})
-				// //	this.userInfo = res.detail.userInfo
+				this.userInfo = res.detail.userInfo
 				}
 			}
 		}
