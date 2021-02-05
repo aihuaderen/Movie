@@ -8,7 +8,7 @@
 					<view class="logo">
 						<view class="input">
 							<view class="circular"></view>
-							<view class="icon">
+							<view class="icon" @click="gageScroll">
 								<view class="iconfont icon-dingbu2"></view>
 								<span>顶部</span>
 							</view>
@@ -25,41 +25,40 @@
 		</view>
 		<view class="contentContainer">
 			<view class="navContainer">
-				<view class="totalCategory">
-					<view class="category active">连续剧</view>
+				<scroll-view class="totalCategory" scroll-x="true" enable-flex>
+					<!-- <view class="category active">连续剧</view>
 					<view class="category">电影</view>
 					<view class="category">综艺</view>
-					<view class="category">动漫</view>
-				</view>
+					<view class="category">动漫</view> -->
+					<!-- :class="{active : categroy1}"  -->
+					<view class="category" :class="{active : category1 == index}"
+					v-for="(videoData,index) in videoDataList" :key="videoData.type_id" @click="changeCategory1(index)">
+						{{videoData.type_name}}
+					</view>
+				</scroll-view>
 				
 				<view class="detailCategoryContainer">
-					<view class="detailCategory">
-						<view class="category active">全部</view>
-						<view class="category">言情</view>
-						<view class="category">喜剧</view>
-						<view class="category">悬疑</view>
-						<view class="category">都市</view>
-						<view class="category">偶像</view>
-						<view class="category">古装</view>
-					</view>
-					<view class="detailCategory">
-						<view class="category active">全部</view>
-						<view class="category">大陆</view>
-						<view class="category">美国</view>
-						<view class="category">香港</view>
-						<view class="category">台湾</view>
-						<view class="category">韩国</view>
-						<view class="category">泰国</view>
-					</view>
-					<view class="detailCategory">
-						<view class="category active">全部</view>
-						<view class="category">2020</view>
-						<view class="category">2019</view>
-						<view class="category">2018</view>
-						<view class="category">2017</view>
-						<view class="category">2016</view>
-						<view class="category">2015</view>
-					</view>
+					<scroll-view class="detailCategory" scroll-x="true" enable-flex>
+						<view class="category" :class="{active : category2 == -1}" @click="changeCategory2(-1)">全部</view>
+						<view class="category" :class="{active : category2 == index}" v-for="(getCategory2,index) in getCategory2List" 
+						:key="getCategory2.type_id" @click="changeCategory2(index)">
+							{{getCategory2.type_name}}
+						</view>
+					</scroll-view>
+					<scroll-view class="detailCategory" scroll-x="true" enable-flex>
+						<view class="category" :class="{active : areaIndex == -1}" @click="changeArea(-1)">全部</view>
+						<view class="category" v-for="(area,index) in areaList" :key="area"
+						:class="{active : areaIndex == index}" @click="changeArea(index)">
+							{{area}}
+						</view>
+					</scroll-view>
+					<scroll-view class="detailCategory" scroll-x="true" enable-flex>
+						<view class="category" :class="{active : yearIndex == -1}" @click="changeYear(-1)">全部</view>
+						<view class="category" v-for="(year,index) in yearList" :key="year"
+						:class="{active : yearIndex == index}" @click="changeYear(index)">
+							{{year}}
+						</view>
+					</scroll-view>
 				</view>
 			</view>
 			<view class="detailContainer">
@@ -69,59 +68,25 @@
 						<text>筛选</text>
 					</view>
 					<view class="screenRight">
-						<view class="screen active">
-							<text class="text active">新</text>
+						<view class="screen" :class="{active : chooseType == 'hits'}">
+							<!-- sort=hits/time/scores -->
+							<text class="text" :class="{active : chooseType == 'hits'}" @click="changeHot('hits')">热</text>
 						</view>
-						<view class="screen">
-							<text class="text">新</text>
+						<view class="screen" :class="{active : chooseType == 'time'}">
+							<text class="text" :class="{active : chooseType == 'time'}" @click="changeTime('time')">新</text>
 						</view>
-						<view class="screen">
-							<text class="text">评</text>
+						<view class="screen" :class="{active : chooseType == 'scores'}">
+							<text class="text" :class="{active : chooseType == 'scores'}" @click="changeScores('scores')">评</text>
 						</view>
 					</view>
 				</view>
 				<view class="videoContainer">
-					<view class="videoInfo">
+					<view class="videoInfo" v-for="(video,index) in videoTotalList" :key="video.id">
 						<text class="score">5.0</text>
-						<image src="./bg.jpg" mode=""></image>
+						<fr-image :src="video.vod_pic" class="fr_img " mode="" lazy-load="true" loading-ing-img="two-balls"></fr-image>
 						<view class="info">
-							<text class="videoName">筑梦情缘</text>
-							<text class="videoDesc">曾江，风雷，杨幂</text>
-						</view>
-					</view>
-					<view class="videoInfo">
-						<image src="./bg.jpg" mode=""></image>
-						<view class="info">
-							<text class="videoName">筑梦情缘</text>
-							<text class="videoDesc">曾江，风雷，杨幂</text>
-						</view>
-					</view>
-					<view class="videoInfo">
-						<image src="./bg.jpg" mode=""></image>
-						<view class="info">
-							<text class="videoName">筑梦情缘</text>
-							<text class="videoDesc">曾江，风雷，杨幂</text>
-						</view>
-					</view>
-					<view class="videoInfo">
-						<image src="./bg.jpg" mode=""></image>
-						<view class="info">
-							<text class="videoName">筑梦情缘</text>
-							<text class="videoDesc">曾江，风雷，杨幂</text>
-						</view>
-					</view>
-					<view class="videoInfo">
-						<image src="./bg.jpg" mode=""></image>
-						<view class="info">
-							<text class="videoName">筑梦情缘</text>
-							<text class="videoDesc">曾江，风雷，杨幂</text>
-						</view>
-					</view>
-					<view class="videoInfo">
-						<image src="./bg.jpg" mode=""></image>
-						<view class="info">
-							<text class="videoName">筑梦情缘</text>
-							<text class="videoDesc">曾江，风雷，杨幂</text>
+							<text class="videoName">{{video.vod_name}}</text>
+							<text class="videoDesc">{{video.vod_actor}}</text>
 						</view>
 					</view>
 				</view>
@@ -131,18 +96,120 @@
 </template>
 
 <script>
-var statusBarHeight = uni.getSystemInfoSync().statusBarHeight + 'px';
+	import request from '../../utils/request.js';
+	import videoDta from './classify.json';
+	import FrImage from '@/components/fr-image/fr-image.vue';
+	var statusBarHeight = uni.getSystemInfoSync().statusBarHeight + 'px';
 export default {
 	data() {
 		return {
 			statusBarHeight:statusBarHeight,
+			videoDataList : videoDta,
+			category1 : 0,
+			category2 : -1,
+			chooseType : 'time',
+			areaIndex : -1,
+			yearIndex : -1,
+			yearList : [],
+			areaList : [],
+			t_id : '',
+			videoTotalList : [],//电影数据,
+			page : 1
 		}
+	},
+	components:{
+		FrImage
 	},
 	methods: {
 		//返回
 		onreturn(){
 			uni.navigateBack()
+		},
+		onPageScroll(res){
+			this.pageScrollTo = res.scrollTop//距离页面顶部距离
+		},
+		gageScroll(){
+			// 一秒 走 10m 速度为 10m/1s
+			this.mius = 10;
+			this.speed = 10;
+			let times = this.pageScrollTo/this.mius/this.speed;
+			// console.log(this.pageScrollTo/this.mius/this.speed);
+			uni.pageScrollTo({
+			    scrollTop: 0,  //距离页面顶部的距离
+			    duration: times * 1000
+			});
+		},
+		changeCategory1(index){
+			this.category1 = index;
+			this.category2 = -1,
+			this.areaIndex = -1,
+			this.yearIndex = -1,
+			this.chooseType = 'time',
+			this.getVideoData();
+		},
+		changeCategory2(index){
+			this.category2 = index;
+			this.getVideoData();
+		},
+		changeArea(index){
+			this.areaIndex = index;
+			this.getVideoData();
+		},
+		changeYear(index){
+			this.yearIndex = index;
+			this.getVideoData();   
+		},
+		changeHot(index){
+			this.chooseType = 'hits';
+			this.getVideoData();   
+		},
+		changeTime(index){
+			this.chooseType = 'time';
+			this.getVideoData();   
+		},
+		changeScores(index){
+			this.chooseType = 'scores';
+			this.getVideoData();   
+		},
+		// 请求数据
+		async getVideoData(){
+			(this.category2 != -1) && (this.t_id = this.videoDataList[this.category1].category[this.category2].type_id);
+			(this.category2 == -1) && (this.t_id = this.videoDataList[this.category1].type_id);
+			let data = {
+				t : this.t_id,
+				sort : this.chooseType 
+			};
+			(this.areaIndex != -1) && (data.area = this.videoDataList[this.category1].area[this.areaIndex]);
+			(this.yearIndex != -1) && (data.year = this.videoDataList[this.category1].year[this.yearIndex]);
+			// console.log(data);
+			// console.log(this.videoDataList[this.category1].category[this.category2].type_id);
+			console.log(data);
+			let result = await request('/vod',data);
+			console.log(result);
+			if(result.code == 1){
+				this.videoTotalList = result.list.slice(0,this.page * 9);
+			}
+		},
+		onReachBottom: function() {
+					// 下拉懒加载
+					++this.page;
+					this.getVideoData();
+					// console.log(2314);
+				},
+		
+	},
+	mounted() {
+		this.getVideoData();
+	},
+	computed:{
+		getCategory2List(){
+			let {category,area,year} = this.videoDataList[this.category1];
+			// this.videoCategory2List = category;
+			this.areaList = area;
+			this.yearList = year;
+			return category
 		}
+		
 	}
 }
 </script>
@@ -242,14 +309,13 @@ export default {
 		margin-top: 20rpx;
 		padding: 0rpx 30rpx;
 		.totalCategory{
-			display: flex;
-			// flex-direction: column;
-			// align-content: space-between;
-			justify-content: space-between;
+			white-space : nowrap;
 			line-height: 90rpx;
 			.category{
 				color: #FFFFFF;
 				font-size: 45rpx;
+				display: inline-block;
+				margin-right: 100rpx;
 				&.active{
 					color: #EF9B3D;
 				}
@@ -260,11 +326,12 @@ export default {
 				line-height: 70rpx;
 				font-size: 28rpx;
 				color: #FFFFFF;
-				display: flex;
-				justify-content: space-between;
+				white-space: nowrap;
 				.category{
 					// flex: 1;
 					text-align: center;
+					display: inline-block;
+					margin-right: 100rpx;
 					&.active{
 						color: #EF9B3D;
 						border-bottom: 1rpx solid #EF9B3D;
@@ -347,8 +414,8 @@ export default {
 			.score{
 				width: 80rpx;
 				height: 50rpx;
-				border-top-left-radius: 20rpx;
-				border-bottom-right-radius: 20rpx;
+				border-top-left-radius: 15rpx;
+				border-bottom-right-radius: 15rpx;
 				font-size: 30rpx;
 				line-height: 50rpx;
 				font-weight: bold;
@@ -356,18 +423,27 @@ export default {
 				position: absolute;
 				top: 0;
 				left: 0;
+				z-index: 5;
 			}
-			image{
-				width: 200rpx;
-				height: 280rpx;
-				background: #4CD964;
-				border-radius: 10rpx;
+			/deep/ .fr_img{
+				width: 200rpx !important;
+				height: 290rpx !important;
+				// background: #4CD964;
+				border-radius: 15rpx !important;
+			}
+			/deep/ .fr_img .fr_img_content {
+				border-radius: 15rpx !important;
+				width: 100%;
+				height: 100%;
+				left: 0;
+				position: absolute;
+				top: 0;
 			}
 			.info{
 				display: flex;
 				flex-direction: column;
 				.videoName{
-					line-height: 55rpx;
+					line-height: 70rpx;
 					font-size: 35rpx;
 					color: #2B2B2B;
 					overflow: hidden;
