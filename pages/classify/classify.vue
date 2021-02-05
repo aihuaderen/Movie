@@ -26,18 +26,13 @@
 		<view class="contentContainer">
 			<view class="navContainer">
 				<scroll-view class="totalCategory" scroll-x="true" enable-flex>
-					<!-- <view class="category active">连续剧</view>
-					<view class="category">电影</view>
-					<view class="category">综艺</view>
-					<view class="category">动漫</view> -->
-					<!-- :class="{active : categroy1}"  -->
 					<view class="category" :class="{active : category1 == index}"
 					v-for="(videoData,index) in videoDataList" :key="videoData.type_id" @click="changeCategory1(index)">
 						{{videoData.type_name}}
 					</view>
 				</scroll-view>
 				
-				<view class="detailCategoryContainer">
+				<view class="detailCategoryContainer" v-show="isShowNav">
 					<scroll-view class="detailCategory" scroll-x="true" enable-flex>
 						<view class="category" :class="{active : category2 == -1}" @click="changeCategory2(-1)">全部</view>
 						<view class="category" :class="{active : category2 == index}" v-for="(getCategory2,index) in getCategory2List" 
@@ -63,7 +58,7 @@
 			</view>
 			<view class="detailContainer">
 				<view class="screenContainer">
-					<view class="screenLift">
+					<view class="screenLift" @click="showNavChange">
 						<text class="iconfont icon-caidanzhankai"></text>
 						<text>筛选</text>
 					</view>
@@ -114,7 +109,8 @@ export default {
 			areaList : [],
 			t_id : '',
 			videoTotalList : [],//电影数据,
-			page : 1
+			page : 1,
+			isShowNav : true
 		}
 	},
 	components:{
@@ -196,6 +192,10 @@ export default {
 					this.getVideoData();
 					// console.log(2314);
 				},
+		showNavChange(){
+			console.log(23);
+			this.isShowNav = !this.isShowNav
+		}
 		
 	},
 	mounted() {
