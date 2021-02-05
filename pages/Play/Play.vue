@@ -28,7 +28,8 @@
 				<view class="topInfo">
 					<text class="vname">{{videoInfo.vod_name}}</text>
 					<text class="status">{{videoInfo.vod_remarks}}</text>
-					<text class="collect iconfont icon-shoucang2" @tap="collect"></text>
+					<text v-if="collected" class="collect iconfont icon-shoucang1" @tap="collect"></text>
+					<text v-else class="collect iconfont icon-shoucang2" @tap="collect"></text>
 				</view>
 			</view>
 			<view class="options">
@@ -90,6 +91,7 @@
 			return {
 				statusBarHeight: statusBarHeight,
 				popupState: false,
+				collected: false,
 				isFload: true,
 				speed: 1.0,
 				speedArr: [1.0, 1.5, 2.0, 0.5, 0.8],
@@ -132,11 +134,17 @@
 				if(result.total === 0) {
 					return uni.showToast({
 						title: '数据获取失败',
+						icon: "none",
 						duration: 2000
 					})
 				}
 				this.videoInfo = result.list[0]
-				
+				//判断词视频是否已收藏
+				this.videoId = id
+				let collect_ids = uni.getStorageSync('collect') || [];
+				if(collect_ids.indexOf(this.videoId) !== -1) {
+					this.collected = true;
+				}
 				//设置播放名和播放链接
 				this.currentPlayName = this.playArr[0].pname;
 				this.currentPlayUrl = this.playArr[0].purl;
@@ -163,7 +171,27 @@
 			},
 			//收藏
 			collect(){
-				console.log('收藏')
+				//将数据存储在storeage
+				let collect_ids = uni.getStorageSync('collect') || [];
+				//如果当前vid存在storeage中,就是取消收藏,或者加入收藏
+				let index = collect_ids.indexOf(this.videoId);
+				if(index !== -1) {
+					collect_ids.splice(index, 1)
+					this.collected = false;
+					uni.showToast({
+						title:"取消收藏",
+						icon: "none"
+					})
+				} else {
+					collect_ids.push(this.videoId);
+					this.collected = true;
+					uni.showToast({
+						title:"加入收藏",
+						icon: "none"
+					})
+				}
+				uni.setStorageSync('collect', collect_ids)
+				console.log(uni.getStorageSync('collect'));
 			},
 
 			selectNum() {
@@ -246,33 +274,6 @@
 		width: 100%;
 	}
 
-	//search
-	// .bar {
-	// 	position: relative;
-	// 	width: 100%;
-	// 	height: 140rpx;
-	// 	background-color: #2F2F2F;
-	// 	color: #fff;
-	// 	margin: 0 auto;
-
-	// 	.backbtn {
-	// 		position: absolute;
-	// 		width: 80rpx;
-	// 		height: 80rpx;
-	// 		text-align: center;
-	// 		line-height: 80rpx;
-	// 		top: 33%;
-	// 	}
-
-	// 	.vname {
-	// 		position: absolute;
-	// 		top: 52%;
-	// 		left: 45%;
-	// 		transform: translate(-50%, -20%);
-	// 	}
-	// }
-	
-	
 	// 自义定导航栏
 		.mp-header {
 			background-color: #2F2F2F;
