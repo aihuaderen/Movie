@@ -1,0 +1,114 @@
+[
+	{
+	"type_id": 1,
+	"type_name": "电影",
+	"category" :
+		[
+			{
+			"type_id": 6,
+			"type_name": "动作片"
+			},
+			{
+			"type_id": 7,
+			"type_name": "喜剧片"
+			},
+			{
+			"type_id": 8,
+			"type_name": "爱情片"
+			},
+			{
+			"type_id": 9,
+			"type_name": "科幻片"
+			},
+			{
+			"type_id": 10,
+			"type_name": "恐怖片"
+			},
+			{
+			"type_id": 11,
+			"type_name": "剧情片"
+			},
+			{
+			"type_id": 12,
+			"type_name": "战争片"
+			}
+		],
+	"area" : 
+		["大陆","美国","香港","台湾","韩国","日本","法国"],
+	"year" :
+		["2020","2019","2018","2017","2016","2015"]
+	},
+	{
+	"type_id": 2,
+	"type_name": "连续剧",
+	"category":
+		[
+			{
+			"type_id": 13,
+			"type_name": "国产剧"
+			},
+			{
+			"type_id": 14,
+			"type_name": "港台剧"
+			},
+			{
+			"type_id": 15,
+			"type_name": "日韩剧"
+			},
+			{
+			"type_id": 16,
+			"type_name": "欧美剧"
+			}
+		],
+	"area" : 
+		["内地","欧美","香港","日韩","其他"],
+	"year" :
+		["2020","2019","2018","2017","2016","2015"]
+	},
+	{
+	"type_id": 3,
+	"type_name": "综艺",
+	"category" :
+		[
+			{
+			"type_id": 17,
+			"type_name": "公告"
+			},
+			{
+			"type_id": 18,
+			"type_name": "头条"
+			}
+		]
+	},
+	{
+	"type_id": 4,
+	"type_name": "动漫",
+	"category" :
+		[
+			{
+			"type_id": 17,
+			"type_name": "公告"
+			},
+			{
+			"type_id": 18,
+			"type_name": "头条"
+			}
+		]
+	},
+	{
+	"type_id": 5,
+	"type_name": "资讯",
+	"category" :
+		[
+			{
+			"type_id": 17,
+			"type_name": "公告"
+			},
+			{
+			"type_id": 18,
+			"type_name": "头条"
+			}
+		]
+	}
+]
+
