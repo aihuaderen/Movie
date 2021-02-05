@@ -23,7 +23,7 @@
 					</view>
 				</view>
 				<!-- 内容 -->
-				<view class="contentHis">
+				<view class="contentHis" @click="toSearchInfo">
 					<view class="movieHis">哈哈哈</view>
 					<view class="movieHis">哈哈</view>
 					<view class="movieHis">哈哈哈</view>
@@ -83,6 +83,13 @@
 			return {
 				statusBarHeight: statusBarHeight
 			};
+		},
+		methods:{
+			toSearchInfo(){
+				wx.navigateTo({
+					url:'../searchInfo/searchInfo'
+				})
+			}
 		}
 	}
 </script>
