@@ -36,12 +36,11 @@
 		<!-- 豆瓣评分 -->
 		<view class="score">
 			<view class="star">
-				<text class="douban">豆瓣:{{videoInfo.vod_douban_score}}</text>
-				<text class="iconfont icon-shixinxingxing"></text>
-				<text class="iconfont icon-shixinxingxing"></text>
-				<text class="iconfont icon-shixinxingxing"></text>
-				<text class="iconfont icon-shixinxingxing"></text>
-				<text class="iconfont icon-shixinxingxing1"></text>
+				<text class="douban">豆瓣:{{videoInfo.vod_score}}</text>
+				<text class="iconfont icon-shixinxingxing" v-for="(item,index) in xinxinObj.wholeNum" :key="index"></text>
+					<image class="halfStar" src="/static/images/detail/half.svg" mode="" 
+					 v-if="xinxinObj.isHalf"></image>
+				<text class="iconfont icon-shixinxingxing1" v-for="(item,index) in xinxinObj.whiteNum" :key="index"></text>
 			</view>
 			<view class="play" @click="toPlay">
 				<text class="iconfont icon-bofang"></text>
@@ -49,41 +48,41 @@
 			</view>
 		</view>
 
-	<!-- 影片简介 -->
-	<view class="introduction">
-		<text class="iconfont icon-jianjie"></text>
-		<text class="title">影片简介</text>
-		<view class="fload" :class="isFload ? 'hide' : 'show'">
-			{{videoInfo.vod_blurb}}
+		<!-- 影片简介 -->
+		<view class="introduction">
+			<text class="iconfont icon-jianjie"></text>
+			<text class="title">影片简介</text>
+			<view class="fload" :class="isFload ? 'hide' : 'show'">
+				{{videoInfo.vod_content | filterHtmlTag}}
+			</view>
+			<view class="expansion" v-if="arrowShow">
+				<text v-if="isFload" class="iconfont icon-xiangshangjiantouarrowup1" @click="fload"></text>
+				<text v-if="!isFload" class="iconfont icon-xiangshangjiantouarrowup" @click="fload"></text>
+			</view>
 		</view>
-		<view class="expansion">
-			<text v-if="isFload" class="iconfont icon-xiangshangjiantouarrowup1" @click="fload">展开</text>
-			<text v-if="!isFload" class="iconfont icon-xiangshangjiantouarrowup" @click="fload">收起</text>
+		<!-- 精彩推荐 -->
+		<view class="recommend">
+			<view class="header">
+				<text class="iconfont icon-huo"></text>
+				<text class="title">精彩推荐</text>
+			</view>
+			<view class="content">
+				<scroll-view scroll-x="true" enable-flex>
+					<view class="movieItem" v-for="video in videoList" :key="video.vod_id" @click="toCurrent(video.vod_id)">
+						<view class="top">{{video.vod_score}}</view>
+						<image class="smallImg" :src="video.vod_pic" mode=""></image>
+						<view class="movieName">{{video.vod_name}}</view>
+						<view class="actor">{{video.vod_actor}}</view>
+					</view>
+				</scroll-view>
+			</view>
 		</view>
-	</view>
-	<!-- 精彩推荐 -->
-	<view class="recommend">
-		<view class="header">
-			<text class="iconfont icon-huo"></text>
-			<text class="title">精彩推荐</text>
-		</view>
-		<view class="content">
-			<scroll-view scroll-x="true" enable-flex>
-				<view class="movieItem" v-for="video in videoList" :key="video.vod_id" 
-				@click="toCurrent(video.vod_id)">
-					<view class="top">{{video.vod_score}}</view>
-					<image class="smallImg" :src="video.vod_pic" mode=""></image>
-					<view class="movieName">{{video.vod_name}}</view>
-					<view class="actor">{{video.vod_actor}}</view>
-				</view>
-			</scroll-view>
-		</view>
-	</view>
 	</view>
 </template>
 
 <script>
 	import request from '../../utils/request.js'
+	// import halfStar from '../../static/'
 	const statusBarHeight = uni.getSystemInfoSync().statusBarHeight + 'px';
 	export default {
 		data() {
@@ -128,6 +127,34 @@
 				imageUrl: this.videoInfo.vod_pic
 			}
 		},
+		//过滤简介中的html标签
+		filters:{
+			filterHtmlTag(str) {
+				return str.replace(/<[^<>]+>/g,'')
+			}
+		},
+		computed: {
+			// 星星
+			xinxinObj() {
+				if (!this.videoInfo.vod_score) return {
+					wholeNum: 0,
+					isHalf: 0,
+					whiteNum: 5
+				}
+				let wholeNum = Math.floor(this.videoInfo.vod_score / 2);
+				let isHalf = this.videoInfo.vod_score % 2 >= 1 ? true : false;
+				let whiteNum = 5 - wholeNum - isHalf;
+				return {
+					wholeNum,
+					isHalf,
+					whiteNum
+				}
+			},
+			//简介展开
+			arrowShow() {
+				return this.videoInfo.vod_content && this.videoInfo.vod_content.trim().length > 75
+			}
+		},
 		methods: {
 			// 文字的展开和收起
 			fload() {
@@ -164,7 +191,7 @@
 			// 跳转到播放页面
 			toPlay() {
 				wx.navigateTo({
-					url: '/pages/Play/Play?id='+this.vid
+					url: '/pages/Play/Play?id=' + this.vid
 				})
 			},
 			//跳转到当前页面
@@ -307,19 +334,25 @@
 					font-weight: bold;
 					margin-right: 30rpx;
 				}
-				
 
-					.iconfont {
-						position: relative;
-						vertical-align: middle;
-						color: #EFD141;
-						font-size: 40rpx;
-						
-					}
 
-					.icon-shixinxingxing1 {
-						color: #DCD9DB;
-					}
+				.iconfont {
+					position: relative;
+					vertical-align: middle;
+					color: #F7AF22;
+					font-size: 40rpx;
+				}
+
+				.icon-shixinxingxing1 {
+					color: #DCD9DB;
+				}
+
+				.halfStar {
+					width: 43rpx;
+					height: 43rpx;
+					vertical-align: middle;
+					display: inline-block;
+				}
 
 			}
 

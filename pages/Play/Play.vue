@@ -1,10 +1,24 @@
 <template>
 	<view class="playContainer">
-		<!-- 导航栏 -->
-		<view class="bar">
-			<text class="iconfont icon-fanhui backbtn" @tap="backbtn"></text>
-			<text class="vname">硅谷影院</text>
+		<!-- 自定义导航栏 -->
+		<view class="">
+			<view class="mp-header">
+				<view class="sys-head" :style="{ height: statusBarHeight }"></view>
+				<view class="serch-box" style="height: 43px;">
+					<view class="serch-wrapper flex">
+						<view class="logo">
+							<view class="iconfont icon-fanhuishangyiye" @tap="backbtn"></view>
+							<view class="middle"></view>
+							<view class="iconfont icon-fanhuishouye" @tap="onhome"></view>
+						</view>
+						<text style="margin-left: 15%; color: #fff;">硅谷影院</text>
+					</view>
+				</view>
+			</view>
+			<view style="height:63px"></view>
 		</view>
+		
+		<!-- 视频容器 -->
 		<view class="videoWrap">
 			<video id="myVideo" :src="currentPlayUrl"
 			 controls></video>
@@ -48,7 +62,7 @@
 				</scroll-view>
 			</view>
 			<view class="desc">
-				<view class="title"><text style="font-size:26rpx;text-indent: 20rpx;" class="iconfont icon-shoucang"><text style="margin-left: 15rpx;">影片简介</text></text></view>
+				<view class="title"><text style="font-size:26rpx;text-indent: 20rpx;color: gray;" class="iconfont icon-jianjie"><text style="margin-left: 15rpx;">影片简介</text></text></view>
 				<view class="descWrap">
 					<view class="fload" :class="isFload ? 'hide' : 'show'">
 						{{videoInfo.vod_blurb}}
@@ -70,9 +84,11 @@
 <script>
 	import Share from '../../components/Share/Share.vue'
 	import request from '../../utils/request.js'
+	const statusBarHeight = uni.getSystemInfoSync().statusBarHeight + 'px';
 	export default {
 		data() {
 			return {
+				statusBarHeight: statusBarHeight,
 				popupState: false,
 				isFload: true,
 				speed: 1.0,
@@ -101,7 +117,7 @@
 			},
 			//简介展开
 			arrowShow(){
-				return this.videoInfo.vod_blurb &&  this.videoInfo.vod_blurb.length > 85
+				return this.videoInfo.vod_blurb &&  this.videoInfo.vod_blurb.trim().length > 85
 			}
 		},
 		onLoad(options) {
@@ -127,11 +143,12 @@
 			},
 			//返回按钮 返回到详情页
 			backbtn() {
-				uni.navigateTo({
-					url: '/pages/detail/detail',
-					success: res => {},
-					fail: () => {},
-					complete: () => {}
+				wx.navigateBack();
+			},
+			// 自定义导航栏返回首页
+			onhome() {
+				uni.switchTab({
+					url: '/pages/index/index'
 				});
 			},
 			fload() {
@@ -168,7 +185,7 @@
 			//复制播放地址
 			copyLink() {
 				uni.setClipboardData({
-					data: 'hello world',
+					data: 'techoo.com.cn',
 					success: function() {
 						console.log('success');
 					}
@@ -176,7 +193,6 @@
 			},
 			//微信分享
 			wxShare() {
-				console.log(111)
 				uni.share({
 					provider: 'weixin',
 					type: 5,
@@ -201,9 +217,9 @@
 			var that = this;
 			// 设置菜单中的转发按钮触发转发事件时的转发内容
 			var shareObj = {
-				title: `前往观看 ${this.videoInfo.type_name}   ${this.videoInfo.vod_name}`, // 默认是小程序的名称(可以写slogan等)
-				path: '/pages/share/share', // 默认是当前页面，必须是以‘/’开头的完整路径
-				imageUrl: this.videoInfo.vod_pic, //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
+				title: `前往观看 ${this.videoInfo.type_name}   ${this.videoInfo.vod_name}`, 
+				path: '/pages/index/index',
+				imageUrl: this.videoInfo.vod_pic,
 			};
 			// 来自页面内的按钮的转发
 			if (options.from == 'button') {
@@ -221,7 +237,7 @@
 
 <style lang="less">
 	@import url("iconfont.css");
-
+	@import url("../detail/iconfont/iconfont.less");
 	page {
 		background: #ffffff;
 	}
@@ -231,30 +247,78 @@
 	}
 
 	//search
-	.bar {
-		position: relative;
-		width: 100%;
-		height: 140rpx;
-		background-color: #2F2F2F;
-		color: #fff;
-		margin: 0 auto;
+	// .bar {
+	// 	position: relative;
+	// 	width: 100%;
+	// 	height: 140rpx;
+	// 	background-color: #2F2F2F;
+	// 	color: #fff;
+	// 	margin: 0 auto;
 
-		.backbtn {
-			position: absolute;
-			width: 80rpx;
-			height: 80rpx;
-			text-align: center;
-			line-height: 80rpx;
-			top: 33%;
-		}
+	// 	.backbtn {
+	// 		position: absolute;
+	// 		width: 80rpx;
+	// 		height: 80rpx;
+	// 		text-align: center;
+	// 		line-height: 80rpx;
+	// 		top: 33%;
+	// 	}
 
-		.vname {
-			position: absolute;
-			top: 52%;
-			left: 45%;
-			transform: translate(-50%, -20%);
+	// 	.vname {
+	// 		position: absolute;
+	// 		top: 52%;
+	// 		left: 45%;
+	// 		transform: translate(-50%, -20%);
+	// 	}
+	// }
+	
+	
+	// 自义定导航栏
+		.mp-header {
+			background-color: #2F2F2F;
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			z-index: 2;
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100%;
+	
+			.serch-box {
+				width: 100%;
+				height: 120rpx;
+				background-size: 100% 100%;
+				padding-left: 20rpx;
+			}
+	
+			.serch-wrapper {
+				height: 100%;
+				display: flex;
+				align-items: center;
+	
+				.logo {
+					font-size: 33rpx;
+					color: #fff;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					width: 130rpx;
+					height: 40rpx;
+					border-radius: 30rpx;
+					padding: 10rpx 20rpx;
+					border: 1rpx solid #94A8C1;
+					background-color: rgba(0, 0, 0, .1);
+	
+					.middle {
+						width: 2rpx;
+						height: 40rpx;
+						background-color: rgba(255, 255, 255, 0.6);
+					}
+				}
+			}
 		}
-	}
+		
+		
 
 	.info {
 		padding: 0 20rpx;

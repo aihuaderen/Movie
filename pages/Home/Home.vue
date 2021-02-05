@@ -1,5 +1,5 @@
 <template>
-	<scroll-view class="carousel">
+	<scroll-view class="carousel" v-if="banner[0]">
 		<!-- 首页轮播图部分 -->
 		<swiper class="navbar" autoplay="true" interval="3000" circular="true">
 			<swiper-item v-for="(item,index) in banner" :key="item.vod_id">
@@ -17,11 +17,11 @@
 		<!-- 电影列表 -->
 		<view class="film">
 			<view class="filmTop">
-				<text class="tex1">最新电影</text>
+				<text class="iconfont icon-dianying"></text>
+				<text class="tex1"> 最新电影</text>
 				<view class="tex2" @click="more">
 					<text>查看更多</text>
-					<text class="iconfont icon-xiaolian"></text>
-				
+					<text class="iconfont icon-gengduo"></text>
 				</view>
 			</view>
 
@@ -38,10 +38,11 @@
 			
 			
 			<view class="filmTop">
+				<text class="iconfont icon-shenyejuchang"></text>
 				<text class="tex1">同步剧场</text>
 				<view class="tex2" @click="more">
 					<text>查看更多</text>
-					<text class="iconfont icon-xiaolian"></text>
+					<text class="iconfont icon-gengduo"></text>
 				</view>
 			</view>
 			
@@ -58,10 +59,11 @@
 			
 			
 			<view class="filmTop">
-				<text class="tex1">最新电影</text>
+				<text class="iconfont icon-zongyi"></text>
+				<text class="tex1">热门综艺</text>
 				<view class="tex2" @click="more">
 					<text>查看更多</text>
-					<text class="iconfont icon-xiaolian"></text>
+					<text class="iconfont icon-gengduo"></text>
 				</view>
 			</view>
 			
@@ -77,10 +79,11 @@
 			
 			
 			<view class="filmTop">
+				<text class="iconfont icon-dongman"></text>
 				<text class="tex1">动画动漫</text>
 				<view class="tex2" @click="more">
 					<text>查看更多</text>
-					<text class="iconfont icon-xiaolian"></text>
+					<text class="iconfont icon-gengduo"></text>
 				</view>
 			</view>
 			
@@ -116,7 +119,7 @@
 		methods: {
 			async getInitData() {
 				let result = await request('/banner')
-				console.log(result.list)
+				// console.log(result.list)
 				this.banner = result.list
 
 				//视频列表的获取 电影
@@ -155,6 +158,7 @@
 </script>
 
 <style lang="less">
+	@import url("./iconfont.less");
 	.carousel {
 		height: 3700rpx;
 		.navbar {
@@ -195,27 +199,30 @@
 				width: 100%;
 				height: 60rpx;
 				
+				.iconfont{
+					font-size: 36rpx;
+					color: #333
+				}
 				.tex1 {
-					display: block;
-					color: #F0AD4E;
-					font-size: 30rpx;
-					float: left;
+					color: #333;
+					font-size: 36rpx;
 					margin-left: 20rpx;
 					font-weight: 700;
 					line-height: 60rpx;
 				}
 				
 				.tex2 {
-					color: #F0AD4E;
+					color: #333;
 					font-size: 30rpx;
 					float: right;
 					margin-right: 20rpx;
 					font-weight: 700;
-					height: 100rpx;
-					align-items: center;
 					line-height: 60rpx;
-				}
-				
+					.icon-gengduo{
+						font-size: 30rpx;
+						color: #333;
+					}
+				}	
 			}
 		
 			.filmList {
@@ -232,13 +239,11 @@
 					border: 1px solid hsla(0,0%,100%,.5 );
 					text-align: center;
 					position: relative;
-					border-top-left-radius:20rpx;
-					border-bottom-right-radius:20rpx;
+					border-radius: 10rpx;
 					.filmpic {
 						width: 100%;
 						height: 100%;
-						border-top-left-radius:20rpx;
-							border-bottom-right-radius:20rpx;
+						border-radius: 10rpx;
 					}
 					.tex3{
 						display: block;
@@ -253,10 +258,11 @@
 						position: absolute;
 						top: 0;
 						left: 0;
+						width: 70rpx;
+						font-size: 26rpx;
+						line-height: 40rpx;
 						background: #F0AD4E;
-						text-align: center;
-						border-top-left-radius:20rpx;
-						border-bottom-right-radius:20rpx;
+						border-radius:10rpx 0 10rpx 0;
 					}
 					.status{
 						position: absolute;
@@ -268,9 +274,6 @@
 						color: #DD524D;
 						text-align:right ;
 						font-weight: 700;
-						// background: #F8F8F8;
-						// opacity: .2;
-					
 					}
 				}
 			}

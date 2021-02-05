@@ -28,10 +28,12 @@
 		}, {
 			"path": "pages/searchInfo/searchInfo",
 			"style": {}
-		}, {
+		}, 
+		{
 			"path": "pages/Home/Home",
 			"style": {}
-		}, {
+		},
+		{
 			"path": "pages/Like/Like",
 			"style": {}
 		}, {
