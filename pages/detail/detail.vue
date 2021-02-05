@@ -37,7 +37,6 @@
 		<view class="score">
 			<view class="star">
 				<text class="douban">豆瓣:{{videoInfo.vod_score}}</text>
-
 				<text class="iconfont icon-shixinxingxing" v-for="(item,index) in xinxinObj.wholeNum" :key="index"></text>
 				<image class="halfStar" src="/static/images/detail/half.svg" mode=""></image>
 				<text class="iconfont icon-shixinxingxing1" v-for="(item,index) in xinxinObj.whiteNum" :key="index"></text>
@@ -53,11 +52,11 @@
 			<text class="iconfont icon-jianjie"></text>
 			<text class="title">影片简介</text>
 			<view class="fload" :class="isFload ? 'hide' : 'show'">
-				{{videoInfo.vod_blurb}}
+				{{videoInfo.vod_content | filterHtmlTag}}
 			</view>
 			<view class="expansion" v-if="arrowShow">
-				<text v-if="isFload" class="iconfont icon-xiangshangjiantouarrowup1" @click="fload">展开</text>
-				<text v-if="!isFload" class="iconfont icon-xiangshangjiantouarrowup" @click="fload">收起</text>
+				<text v-if="isFload" class="iconfont icon-xiangshangjiantouarrowup1" @click="fload"></text>
+				<text v-if="!isFload" class="iconfont icon-xiangshangjiantouarrowup" @click="fload"></text>
 			</view>
 		</view>
 		<!-- 精彩推荐 -->
@@ -127,6 +126,12 @@
 				imageUrl: this.videoInfo.vod_pic
 			}
 		},
+		//过滤简介中的html标签
+		filters:{
+			filterHtmlTag(str) {
+				return str.replace(/<[^<>]+>/g,'')
+			}
+		},
 		computed: {
 			// 星星
 			xinxinObj() {
@@ -146,7 +151,7 @@
 			},
 			//简介展开
 			arrowShow() {
-				return this.videoInfo.vod_blurb && this.videoInfo.vod_blurb.trim().length > 75
+				return this.videoInfo.vod_content && this.videoInfo.vod_content.trim().length > 75
 			}
 		},
 		methods: {
