@@ -4,8 +4,10 @@
 		<swiper class="navbar" autoplay="true" interval="3000" circular="true">
 			<swiper-item v-for="(item,index) in banner" :key="item.vod_id">
 				<view class="swiper-item">
-					<image class="navbarImg" :src="item.vod_pic_slide" mode=""></image>
-					<view class="navbarText">{{item.vod_name}}</view>
+					<image class="navbarImg" :src="item.vod_pic_slide" mode="">
+								<view class="navbarText">{{item.vod_name}}</view>
+					</image>
+		
 				</view>
 			</swiper-item>
 		</swiper>
@@ -23,9 +25,9 @@
 				</view>
 			</view>
 
-			<view class="filmList" > 
-				<view class="filmItem" v-for="(items,index) in filmList" :key="items.vod_id">
-					<image class="filmpic" :src="items.vod_pic" ></image>
+			<view class="filmList"> 
+				<view class="filmItem" v-for="(items,index) in filmList" :key="items.vod_id" @click="toDetal(items.vod_id)">
+					<image class="filmpic" :src="items.vod_pic"></image>
 					<text class="tex3">{{items.vod_name}}</text>
 					<view class="score">{{items.vod_score}}</view>
 					<view class="status">{{items.vod_remarks}}</view>
@@ -44,9 +46,9 @@
 			</view>
 			
 			<view class="filmList" >
-				<view class="filmItem" v-for="(items,index) in filmLxj" :key="items.vod_id">
-					<image class="filmpic" :src="items.vod_pic" ></image>
-					<text class="tex3">{{items.vod_name}}</text>
+				<view class="filmItem" v-for="(items,index) in filmLxj" :key="items.vod_id" @click="toDetal(items.vod_id)">
+					<image class="filmpic" :src="items.vod_pic"></image>
+					<text class="tex3" >{{items.vod_name}}</text>
 					<view class="score">{{items.vod_score}}</view>
 					<view class="status">{{items.vod_remarks}}</view>
 				</view>
@@ -64,9 +66,9 @@
 			</view>
 			
 			<view class="filmList">
-				<view class="filmItem" v-for="items in filmRmzy" :key="items.vod_id">
+				<view class="filmItem" v-for="items in filmRmzy" :key="items.vod_id" @click="toDetal(items.vod_id)">
 					<image class="filmpic" :src="items.vod_pic" ></image>
-					<text class="tex3">{{items.vod_name}}</text>
+					<text class="tex3" >{{items.vod_name}}</text>
 					<view class="score">{{items.vod_score}}</view>
 					<view class="status">{{items.vod_remarks}}</view>
 				</view>
@@ -83,9 +85,9 @@
 			</view>
 			
 			<view class="filmList">
-				<view class="filmItem" v-for="item in filmDmdh" :key="item.vod_id">
+				<view class="filmItem" v-for="item in filmDmdh" :key="item.vod_id"  @click="toDetal(item.vod_id)">
 					<image class="filmpic" :src="item.vod_pic" ></image>
-					<text class="tex3">{{item.vod_name}}</text>
+					<text class="tex3" >{{item.vod_name}}</text>
 					<view class="score">{{item.vod_score}}</view>
 					<view class="status">{{item.vod_remarks}}</view>
 				</view>
@@ -131,22 +133,30 @@
 				this.filmRmzy = filmRmzy
 				
 				result = await request('/vod/?ac=list&',{t:4})
-				let filmDmdh = result.list.slice(0.6)
+				let filmDmdh = result.list.slice(0,6)
 				this.filmDmdh = filmDmdh
 			},
 			more(){
 				uni.switchTab({
 					url: '/pages/classify/classify'
 				})
+			},
+			
+			//跳转到详情页
+			
+			toDetal(vod_id){
+				wx.navigateTo({
+						url: '/pages/detail/detail?t='+vod_id
+				})
+				
 			}
-
 		}
 	}
 </script>
 
 <style lang="less">
 	.carousel {
-		height: 3600rpx;
+		height: 3700rpx;
 		.navbar {
 			width: 100%;
 			height: 400rpx;
@@ -159,17 +169,18 @@
 
 				.navbarImg {
 					width: 100%;
-					height: 340rpx;
+					height: 380rpx;
 				}
 
 				.navbarText {
 					position: absolute;
-					top: 334rpx;
+					top: 328rpx;
 					left: 0;
-					background: #DD524D;
+					// background: #DD524D;
 					font-size: 40rpx;
 					width: 100%;
 					text-align: center;
+					color: #F4D13A;
 				}
 			}
 
@@ -218,12 +229,16 @@
 					height: 300rpx;
 					margin-right: 20rpx;
 					margin-bottom: 50rpx;
-					border: 1px solid red;
+					border: 1px solid hsla(0,0%,100%,.5 );
 					text-align: center;
 					position: relative;
+					border-top-left-radius:20rpx;
+					border-bottom-right-radius:20rpx;
 					.filmpic {
 						width: 100%;
 						height: 100%;
+						border-top-left-radius:20rpx;
+							border-bottom-right-radius:20rpx;
 					}
 					.tex3{
 						display: block;
@@ -240,11 +255,14 @@
 						left: 0;
 						background: #F0AD4E;
 						text-align: center;
+						border-top-left-radius:20rpx;
+						border-bottom-right-radius:20rpx;
 					}
 					.status{
 						position: absolute;
 						width: 100%;
-						height: 16rpx;
+						height: 21rpx;
+						left: -6rpx;
 						bottom: 12rpx;
 						font-size: 20rpx;
 						color: #DD524D;
