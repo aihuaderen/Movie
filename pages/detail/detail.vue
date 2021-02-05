@@ -39,7 +39,8 @@
 				<text class="douban">豆瓣:{{videoInfo.vod_score}}</text>
 
 				<text class="iconfont icon-shixinxingxing" v-for="(item,index) in xinxinObj.wholeNum" :key="index"></text>
-				<image class="halfStar" src="/static/images/detail/half.svg" mode=""></image>
+					<image class="halfStar" src="/static/images/detail/half.svg" mode="" 
+					 v-if="xinxinObj.isHalf"></image>
 				<text class="iconfont icon-shixinxingxing1" v-for="(item,index) in xinxinObj.whiteNum" :key="index"></text>
 			</view>
 			<view class="play" @click="toPlay">
