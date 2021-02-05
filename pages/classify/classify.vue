@@ -59,7 +59,7 @@
 					</scroll-view>
 				</view>
 			</view>
-			<view class="detailContainer" >
+			<view class="detailContainer" v-if="videoTotalList.length">
 				<view class="screenContainer">
 					<view class="screenLift" @click="showNavChange">
 						<text class="iconfont icon-caidanzhankai"></text>
@@ -89,7 +89,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="noDateContainer" :class="{active : isShowNav,noActive : !isShowNav}">
+			<view class="noDateContainer" :class="{active : isShowNav,noActive : !isShowNav}" v-else>
 				<view class="screenContainer">
 					<view class="screenLift" @click="showNavChange">
 						<text class="iconfont icon-caidanzhankai"></text>
@@ -108,7 +108,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="noDateDesc">暂无资源，请联系站长</view>
+				<view class="noDateDesc" >暂无资源，请联系站长</view>
 			</view>
 		</view>
 	</view>
