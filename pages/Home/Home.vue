@@ -26,7 +26,7 @@
 			</view>
 
 			<view class="filmList"> 
-				<view class="filmItem" v-for="(items,index) in filmList" :key="items.vod_id" @click="toDetal(items.vod_id)">
+				<view class="filmItem" v-for="(items,index) in filmList" :key="items.vod_id" @click="toDetal(items)">
 					<image class="filmpic" :src="items.vod_pic"></image>
 					<text class="tex3">{{items.vod_name}}</text>
 					<view class="score">{{items.vod_score}}</view>
@@ -46,7 +46,7 @@
 			</view>
 			
 			<view class="filmList" >
-				<view class="filmItem" v-for="(items,index) in filmLxj" :key="items.vod_id" @click="toDetal(items.vod_id)">
+				<view class="filmItem" v-for="(items,index) in filmLxj" :key="items.vod_id" @click="toDetal(items)">
 					<image class="filmpic" :src="items.vod_pic"></image>
 					<text class="tex3" >{{items.vod_name}}</text>
 					<view class="score">{{items.vod_score}}</view>
@@ -66,7 +66,7 @@
 			</view>
 			
 			<view class="filmList">
-				<view class="filmItem" v-for="items in filmRmzy" :key="items.vod_id" @click="toDetal(items.vod_id)">
+				<view class="filmItem" v-for="items in filmRmzy" :key="items.vod_id" @click="toDetal(items)">
 					<image class="filmpic" :src="items.vod_pic" ></image>
 					<text class="tex3" >{{items.vod_name}}</text>
 					<view class="score">{{items.vod_score}}</view>
@@ -85,7 +85,7 @@
 			</view>
 			
 			<view class="filmList">
-				<view class="filmItem" v-for="item in filmDmdh" :key="item.vod_id"  @click="toDetal(item.vod_id)">
+				<view class="filmItem" v-for="item in filmDmdh" :key="item.vod_id"  @click="toDetal(item)">
 					<image class="filmpic" :src="item.vod_pic" ></image>
 					<text class="tex3" >{{item.vod_name}}</text>
 					<view class="score">{{item.vod_score}}</view>
@@ -144,9 +144,9 @@
 			
 			//跳转到详情页
 			
-			toDetal(vod_id){
+			toDetal(item){
 				wx.navigateTo({
-						url: '/pages/detail/detail?t='+vod_id
+						url: `/pages/detail/detail?id=${item.vod_id}&t=${item.type_id}`
 				})
 				
 			}
