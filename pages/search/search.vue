@@ -5,8 +5,8 @@
 			<view class="sys-head" :style="{ height: statusBarHeight }"></view>
 			<view class="serch-box">
 				<view class="serch-wrapper">
-					<input class="barInput" type="text" value="" placeholder="输入搜索关键词" />
-					<text class="iconfont icon-shanchu"></text>
+					<input class="barInput" type="text" value="" v-model="searchValue" placeholder="输入搜索关键词" @input='handleInputChange'/>
+					<text class="iconfont icon-shanchu" @click="delValue"></text>
 				</view>
 			</view>
 		</view>
@@ -47,28 +47,9 @@
 				</view>
 				<!-- 内容 -->
 				<view class="contentHot">
-					<view class="movieHot">哈哈哈</view>
-					<view class="movieHot">哈哈哈哈哈哈哈哈哈</view>
-					<view class="movieHot">哈哈哈</view>
-					<view class="movieHot">哈哈哈哈哈哈</view>
-					<view class="movieHot">哈哈哈</view>
-					<view class="movieHot">哈哈</view>
-					<view class="movieHot">哈哈哈</view>
-					<view class="movieHot">哈哈哈哈哈</view>
-					<view class="movieHot">哈哈哈</view>
-					<view class="movieHot">哈哈哈哈哈哈哈哈哈</view>
-					<view class="movieHot">哈哈哈</view>
-					<view class="movieHot">哈哈哈哈哈哈</view>
-					<view class="movieHot">哈哈哈</view>
-					<view class="movieHot">哈哈哈哈哈哈哈哈哈</view>
-					<view class="movieHot">哈哈哈</view>
-					<view class="movieHot">哈哈哈哈哈哈</view>
-					<view class="movieHot">哈哈哈</view>
-					<view class="movieHot">哈哈</view>
-					<view class="movieHot">哈哈哈</view>
-					<view class="movieHot">哈哈哈哈哈</view>
-					<view class="movieHot">哈哈哈</view>
-					<view class="movieHot">哈哈哈哈哈哈哈哈哈</view>
+					<view class="movieHot" v-for="item in hotList" :key='item.vod_id'>
+						{{item.vod_name}}
+					</view>
 				</view>
 			</view>
 
@@ -77,13 +58,63 @@
 </template>
 
 <script>
+	import request from '../../utils/request.js'
 	var statusBarHeight = uni.getSystemInfoSync().statusBarHeight + 'px';
+	
+	let isSend = false //函数节流使用
 	export default {
 		data() {
 			return {
-				statusBarHeight: statusBarHeight
+				statusBarHeight: statusBarHeight, //当前导航栏的获取的高度
+				hotList: {},  //热门搜索数据
+				searchValue: '', //搜索框查询值
+				keyList: [],  //搜索关键字列表
+				historyList: [], //搜索历史记录
 			};
+		},
+		onLoad(options) {
+			this.getHotList()
+		},
+		methods:{
+			//发送请求获取热门搜索数据
+			async getHotList(){
+				const result = await request('/hotSearch')
+				this.hotList = result.list
+			},
+			//获取input框输入内容
+			handleInputChange(event){
+				//获取输入框的信息
+				this.searchValue = event.detail.value.trim()
+				//判断是否节流
+				if(isSend){
+					return
+				}
+				isSend = true
+				//调用发送请求获取关键字数据
+				this.getKeyList()
+				//函数节流
+				setTimeout( () => {
+					isSend = false
+				}, 300)
+			},
+			//点击删除按钮的回调
+			delValue(){
+				//清空输入框
+				this.searchValue = ''
+			},
+			//发送请求获取关键字数据
+			async getKeyList(){
+				
+				//发送请求获取数据,存入data
+				const result = await request('/search?', {wd: this.searchValue})
+				this.keyList = result.list 
+				
+				this.historyList.unshift(this.searchValue)
+				//存入本地
+				wx.setStorageSync('historyList', this.historyList)
+			}
 		}
+		
 	}
 </script>
 
@@ -124,6 +155,7 @@
 
 			.iconfont {
 				position: absolute;
+				z-index: 999;
 				top: 15rpx;
 				left: 390rpx;
 				color: red;
@@ -205,7 +237,7 @@
 				padding: 10rpx 10rpx 0 10rpx;
 				border-radius: 10rpx;
 				margin-bottom: 30rpx;
-				font-size: 26rpx;
+				font-size: 25rpx;
 				background: #F5F3F1;
 				color: #8c8c8c;
 				flex-direction: column;
