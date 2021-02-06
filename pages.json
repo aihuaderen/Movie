@@ -21,7 +21,8 @@
 		 {
 			"path": "pages/category/category",
 			"style": {}
-		}, {
+		}, 
+		{
 			"path": "pages/personal/personal",
 			"style": {}
 		}, {
@@ -36,9 +37,6 @@
 			"style": {}
 		}, {
 			"path": "pages/classify/classify",
-			"style": {}
-		}, {
-			"path": "pages/special/special",
 			"style": {}
 		}
 	    ,{
@@ -66,12 +64,6 @@
 				"text": "搜索",
 				"iconPath": "/static/images/tabBar/search.png",
 				"selectedIconPath": "/static/images/tabBar/search-current.png"
-			},
-			{
-				"pagePath": "pages/special/special",
-				"text": "专题",
-				"iconPath": "/static/images/tabBar/special.png",
-				"selectedIconPath": "/static/images/tabBar/special-current.png"
 			},
 			{
 				"pagePath": "pages/personal/personal",
