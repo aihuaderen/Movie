@@ -110,7 +110,8 @@
 				videoInfo: {},
 				playHistoryInfo: {},
 				danmuList: uni.getStorageSync('danmuList'),
-				danmuValue: ''
+				danmuValue: '',
+				useBack: true,
 			}
 		},
 		computed: {
@@ -135,6 +136,9 @@
 			}
 		},
 		onLoad(options) {
+			if(options.pname) {
+				this.useBack = false;
+			}
 			//根据id发请求获取视频详情
 			this.getVideoDetail(options.id)
 			this.videoContext = uni.createVideoContext('myVideo');
@@ -143,7 +147,6 @@
 			};
 
 			//查询是否有播放历史,有的话直接跳转到上次位置
-			console.log(this.currentPlayName)
 			let videoHistory = uni.getStorageSync('videoHistory') || [];
 			let vHistory = videoHistory.find(item => options.id === item.videoId)
 			if (vHistory) {

@@ -18,7 +18,7 @@
 			
 			<!-- 内容区域 -->
 			<view >
-				<view class="playlist" @click="toPlay">
+				<view class="playlist" @click="toPlay('history')">
 					<view class="play" >
 						<text class="iconfont icon-bofangjilu"></text>
 						<text class="videos">播放记录</text>
@@ -39,7 +39,7 @@
 					</view>
 				</view>
 				
-				<view class="playlist" @click="toPlay">
+				<view class="playlist" @click="toPlay('star')">
 					<view class="play">
 						<text class="iconfont icon-shoucang"></text>
 						<text class="videos">收藏</text>
@@ -178,9 +178,9 @@
 		},
 		methods:{
 			//点击跳转到收藏页面
-			toPlay(){
+			toPlay(tab){
 				wx.navigateTo({
-					url:"/pages/Like/Like"
+					url:"/pages/Like/Like?tab="+tab
 				})
 			},
 			
@@ -202,7 +202,6 @@
 
 <style lang="less">
 	@import "./iconfont/iconfont.css";
-	
 	button {
 	  margin: 0;
 	  padding: 0;
