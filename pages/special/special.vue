@@ -172,7 +172,7 @@
 					return
 				}
 				wx.navigateTo({
-					url: 'pages/login/login',
+					url: '/pages/login/login'
 				})
 			}
 		}
