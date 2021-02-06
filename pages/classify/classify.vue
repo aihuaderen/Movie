@@ -12,19 +12,13 @@
 								<view class="iconfont icon-dingbu2"></view>
 								<span>顶部</span>
 							</view>
-							
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		<!-- <view class="mp-header_">
-			<view  :style="{ height: statusBarHeight }"></view>
-			<view class="serch-box" style="height: 43px;">
-			</view>
-		</view> -->
+		
 		<view style="height: 120rpx;">
-			
 		</view>
 		<view class="contentContainer">
 			<view class="navContainer">

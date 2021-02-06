@@ -3,23 +3,23 @@
 		<scroll-view scroll-y>
 			<!-- 登录 -->
 			<view>
-				<view class="header">
+				<button style="border:0;" class="header" open-type="getUserInfo" @getuserinfo='handleGetUserInfo'>
 					<image class="userImg" :src="userInfo.avatarUrl?userInfo.avatarUrl:'../../static/images/personal/personal.png'"></image>
-					<view class="userInfo" >
-						<view class="user" >{{userInfo.nickName?userInfo.nickName:'未登录'}}</view>
-						<view class="service" v-if="!userInfo.nickName">登录可以享用更多云服务</view>
+					<view class="userInfo">
+						<view class="user">{{userInfo.nickName?userInfo.nickName:'未登录用户'}}</view>
+						<view class="service">{{userInfo.nickName?'':'登录可以享用更多云服务'}}</view>
 					</view>
-					<view class="login" v-if="!userInfo.nickName"  >
-						<text class="login2" @click="toLogin" >立即登录</text>
-						<text class="iconfont icon-more"></text>
+					<view class="login">
+						<text class="login2">{{userInfo.nickName?'':'立即登录 '}}</text>
+						<!-- <text :class=" icon-more " class="iconfont" ></text> -->
 					</view>
-				</view>
+				</button>
 			</view>
 			
 			<!-- 内容区域 -->
 			<view >
-				<view class="playlist">
-					<view class="play">
+				<view class="playlist" @click="toPlay">
+					<view class="play" >
 						<text class="iconfont icon-bofangjilu"></text>
 						<text class="videos">播放记录</text>
 					</view>
@@ -39,7 +39,7 @@
 					</view>
 				</view>
 				
-				<view class="playlist">
+				<view class="playlist" @click="toPlay">
 					<view class="play">
 						<text class="iconfont icon-shoucang"></text>
 						<text class="videos">收藏</text>
@@ -150,38 +150,71 @@
 	export default {
 		data() {
 			return {
-				userInfo:{},
+				userInfo:{}
 			};
 		},
-		// 获取用户信息
-		mounted() {
-			wx.getUserInfo({
-				success: (res) => {
-					console.log(res)
-					this.userInfo = res.userInfo
-				},
-				fail: (err) => {
-					console.log('获取用户信息失败')
-				}
-			})
+		mounted(){			
+			this.userInfo = wx.getStorageSync('userInfo')
+			
+			// wx.getStorage({
+			//   key: 'userInfo',
+			//   success (res) {
+			//     console.log(res.data)
+			// 		// console(this.userInfo)
+					
+			//   }
+				
+			// })
+		// 	// 获取用户基本信息
+		// 	wx.getUserInfo({
+		// 		success: (res) => {
+		// 			console.log(res)
+		// 			this.userInfo = res.userInfo
+		// 		},
+		// 		fail:(err)=>{
+		// 			console.log('获取用户信息失败')
+		// 		}
+		// 	})
 		},
-		
-		methods: {
-			toLogin(){
-				if(this.userInfo.nickName){
-					return
-				}
+		methods:{
+			//点击跳转到收藏页面
+			toPlay(){
 				wx.navigateTo({
-					url: '/pages/login/login'
+					url:"/pages/Like/Like"
 				})
+			},
+			
+			//登录授权
+			handleGetUserInfo(res){
+				console.log(res)
+				if(res.detail.userInfo){
+					wx.setStorageSync('userInfo', res.detail.userInfo)
+				// 	wx.setStorage({
+				// 		key:'userInfo',
+				// 		data:res.detail.userInfo
+				// 	})
+				this.userInfo = res.detail.userInfo
+				}
 			}
 		}
-			
 	}
 </script>
 
 <style lang="less">
 	@import "./iconfont/iconfont.css";
+	
+	button {
+	  margin: 0;
+	  padding: 0;
+	  outline: none;
+	  border-radius: 0;
+	  background-color: transparent;
+	  line-height: inherit;
+	  width: max-content;
+	}
+	button:after {
+	  border: none;
+	}
 	
 	// 登录
 .header{
@@ -189,6 +222,7 @@
 	width: 100%;
 	height: 150rpx;
 	margin-top: 150rpx;
+	outline: none;
 }
 .header .userImg {
   width: 100rpx;
@@ -202,7 +236,7 @@
 }
 .header .userInfo .user{
 	font-size: 30rpx;
-	
+	text-align:left ;
 }
 .header .userInfo .service{
 	font-size: 25rpx;

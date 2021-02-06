@@ -18,10 +18,6 @@
 			"path": "pages/detail/detail",
 			"style": {}
 		},
-		 {
-			"path": "pages/category/category",
-			"style": {}
-		}, 
 		{
 			"path": "pages/personal/personal",
 			"style": {}
@@ -39,10 +35,6 @@
 			"path": "pages/classify/classify",
 			"style": {}
 		}
-	    ,{
-            "path" : "pages/login/login",
-            "style" : {}
-        }
     ],
 	"tabBar": {
 		"color": "#555",

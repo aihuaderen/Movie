@@ -1,0 +1,148 @@
+<template>
+	<view>
+		<!-- 导航栏 -->
+		<view class="bar">
+			<view class="sys-head" :style="{ height: statusBarHeight }"></view>
+			<view class="serch-box">
+				<view class="serch-wrapper">
+				</view>
+			</view>
+		</view>
+		
+		<scroll-view scroll-y class="container">
+			<!-- 头部轮播 -->
+			<swiper class="swr" @change="swiperChange" circular="true" snap-to-edge="true" previous-margin="220rpx" next-margin="150rpx" :autoplay="true" :interval="3000" :duration="1000" >
+				<swiper-item class="conImg" v-for="(item,index) in banner" :key="item.type_id">
+					<view :class="{active : swiperIndex == index}">
+						<image class="cImg" :src="item.vod_pic_slide" ></image>
+						<view class="mvName">{{item.vod_name}}</view>
+					</view>
+				</swiper-item>
+				
+			</swiper>
+			
+			<!-- 内容列表 -->
+			<HomeList :filmList="filmList" name='热门电影'></HomeList>
+			<HomeList :synchronization="synchronization" name='同步剧场'></HomeList>
+			<HomeList :latestMv="latestMv" name='最新电影'></HomeList>
+			<HomeList :cartoon="cartoon" name='动漫电影'></HomeList>
+			
+			
+		</scroll-view>
+	</view>
+</template>
+
+<script>
+	var statusBarHeight = uni.getSystemInfoSync().statusBarHeight + 'px';
+	
+import HomeList from '../../components/HomeList/HomeList.vue'
+import request from '../../utils/request.js'
+	export default {
+		data() {
+			return {
+				banner:[],//轮播图列表
+				filmList:[],//最新电影
+				synchronization:[], //同步剧场
+				latestMv:[] ,//最新电影
+				cartoon:[] ,//动漫电影
+				
+				swiperIndex: 0, //当前索引
+				statusBarHeight: statusBarHeight //系统自动获取的导航栏高度
+			}
+		},
+		components:{
+			HomeList,
+			
+		},
+		mounted() {
+			this.getInitData()
+		},
+		methods:{
+			async getInitData(){
+				let result = await request('/banner ')
+				this.banner = result.list
+				
+			  result = await request('/vod',{t:1});
+				let filmList = result.list.slice(1,7);
+				this.filmList = filmList
+				
+				result = await request('/vod',{t:2});
+				let synchronization = result.list.slice(1,7);
+				this.synchronization = synchronization
+				
+				result = await request('/vod',{t:3});
+				let latestMv = result.list.slice(1,7);
+				this.latestMv = latestMv
+				
+				result = await request('/vod',{t:3});
+				let cartoon = result.list.slice(1,7);
+				this.cartoon = cartoon
+			},
+			
+			//动态获取轮播图当前索引
+			swiperChange(event){
+				// console.log(event)
+				this.swiperIndex = event.detail.current
+			}
+		}
+	
+	}
+</script>
+
+<style lang="less">
+	
+	.container{
+		width: 100%;
+		
+	}
+	
+	//导航栏样式
+	.bar {
+		// z-index: 999;
+		// position: fixed;
+		width: 100%;
+		height: 140rpx;
+	
+		.serch-box {
+			width: 100%;
+			height: 100rpx;
+			background-size: 100% 100%;
+			padding-left: 20rpx;
+		}
+	
+		.serch-wrapper {
+			height: 100%;
+			font-size: 26rpx;
+			position: relative;
+	
+		}
+	
+	}
+	
+	
+	
+	.container .swr{
+		height: 500rpx;
+		
+	}
+	.swr .conImg{
+		position: relative;
+	}
+	.swr .conImg .cImg{
+		width: 300rpx;
+		height: 400rpx;
+	}
+	.swr .conImg .active{
+		transform: scale(1.14);
+		transition: all .2s ease-in 0s;
+		z-index: 20;
+		transition-duration: 3s;
+	}
+	.swr .conImg .mvName{
+		position: absolute;
+		top:406rpx ;
+		left:90rpx ;
+		font-size: 25rpx;
+		
+	}
+</style>
