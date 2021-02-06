@@ -84,6 +84,9 @@
 		onLoad(options) {
 			this.vtypeId = options.t;
 			this.vid = options.id;
+			uni.showLoading({
+				title:"加载中..."
+			})
 			this.getVideoDetail(options.id);
 			this.getHotRecommended(options.t);
 		},
@@ -153,6 +156,7 @@
 					ac: 'detail',
 					ids: id
 				})
+				uni.hideLoading();
 				this.videoInfo = result.list[0]
 			},
 			// 获取精彩推荐数据
