@@ -135,6 +135,9 @@ export default {
 	components:{
 		FrImage
 	},
+	onLoad(options){
+		this.category1 = uni.getStorageSync('categoryId')
+	},
 	methods: {
 		//返回
 		onreturn(){

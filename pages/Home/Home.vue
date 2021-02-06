@@ -2,7 +2,7 @@
 	<scroll-view class="carousel" v-if="banner[0]">
 		<view class="bannerContainer">
 			<!-- 自定义导航栏 -->
-			<NavigationBar></NavigationBar>
+			<view style="height: 120rpx;"></view>
 			<!-- 头部轮播 -->
 			<swiper class="swr" @change="swiperChange" circular="true" snap-to-edge="true" previous-margin="220rpx" next-margin="150rpx"
 			 :autoplay="true" :interval="3000" :duration="1000">
@@ -20,7 +20,7 @@
 			<view class="filmTop">
 				<text class="iconfont icon-dianying"></text>
 				<text class="tex1"> 最新电影</text>
-				<view class="tex2" @click="more">
+				<view class="tex2" @click="more('film')">
 					<text>查看更多</text>
 					<text class="iconfont icon-gengduo"></text>
 				</view>
@@ -41,7 +41,7 @@
 			<view class="filmTop">
 				<text class="iconfont icon-shenyejuchang"></text>
 				<text class="tex1">同步剧场</text>
-				<view class="tex2" @click="more">
+				<view class="tex2" @click="more('tv')">
 					<text>查看更多</text>
 					<text class="iconfont icon-gengduo"></text>
 				</view>
@@ -62,7 +62,7 @@
 			<view class="filmTop">
 				<text class="iconfont icon-zongyi"></text>
 				<text class="tex1">热门综艺</text>
-				<view class="tex2" @click="more">
+				<view class="tex2" @click="more('arts')">
 					<text>查看更多</text>
 					<text class="iconfont icon-gengduo"></text>
 				</view>
@@ -82,7 +82,7 @@
 			<view class="filmTop">
 				<text class="iconfont icon-dongman"></text>
 				<text class="tex1">动画动漫</text>
-				<view class="tex2" @click="more">
+				<view class="tex2" @click="more('cartoon')">
 					<text>查看更多</text>
 					<text class="iconfont icon-gengduo"></text>
 				</view>
@@ -112,7 +112,8 @@
 				filmList: [], //视频列表的数据
 				filmLxj: [], //连续剧列表的数据
 				filmRmzy: [], //热门综艺数据
-				filmDmdh: [] //动漫动画
+				filmDmdh: [] ,//动漫动画,
+				map: ['film', 'tv', 'arts', 'cartoon']
 			}
 		},
 		mounted() {
@@ -155,7 +156,11 @@
 				let filmDmdh = result.list.slice(0, 6)
 				this.filmDmdh = filmDmdh
 			},
-			more() {
+			
+			
+			more(type) {
+				let typeId = this.map.findIndex(item => item===type)
+				uni.setStorageSync('categoryId', typeId)
 				uni.switchTab({
 					url: '/pages/classify/classify'
 				})
@@ -175,7 +180,7 @@
 
 <style lang="less">
 	@import url("./iconfont.less");
-    @import url("./iconfont2.less");
+    // @import url("./iconfont2.less");
 	page {
 		background: #fff;
 	}
@@ -211,7 +216,6 @@
 	}
 
 	.carousel {
-		height: 3700rpx;
 		.bannerContainer {
 			background: -webkit-linear-gradient(top,rgba(104, 130, 253, 1.0),rgba(104, 130, 253, 0.7), rgba(85, 170, 255, 0.05));
 		}
@@ -254,31 +258,31 @@
 			.filmTop {
 				width: 100%;
 				height: 60rpx;
-
+				margin-top: 24rpx;
+				border-bottom: 1rpx solid #eee;
+				padding-bottom: 12rpx;
 				.iconfont {
 					font-size: 36rpx;
 					color: #333
 				}
 
 				.tex1 {
-					color: #333;
+					color: rgba(0,0,0,1);
 					font-size: 36rpx;
 					margin-left: 20rpx;
-					font-weight: 700;
 					line-height: 60rpx;
 				}
 
 				.tex2 {
-					color: #333;
-					font-size: 30rpx;
+					color: rgba(0,0,0,0.6);
+					font-size: 28rpx;
 					float: right;
 					margin-right: 20rpx;
-					font-weight: 700;
 					line-height: 60rpx;
 
 					.icon-gengduo {
-						font-size: 30rpx;
-						color: #333;
+						font-size: 28rpx;
+						color: rgba(0,0,0,0.6);
 					}
 				}
 			}

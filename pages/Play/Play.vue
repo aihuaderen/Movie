@@ -58,9 +58,8 @@
 			</view>
 			<!-- 弹幕 -->
 				<view class="danmuForm">
-					<text class=" dicon iconfont icon-danmu1"></text>
 					<input  v-model="danmuValue"  type="text" placeholder="在此处输入弹幕内容" />
-					<button @click="sendDanmu" class="page-body-button">发送弹幕</button>
+					<button plain @click="sendDanmu" class="page-body-button">发送弹幕</button>
 				</view>
 			<!-- 弹幕end -->
 			<view class="videoNum">
@@ -509,22 +508,31 @@
 	}
 
 	.danmuForm {
+		display: flex;
 		height: 60rpx;
-		justify-content: flex-end;
-		.dicon {
-			float: left;
-		}
+	
 		input {
-			float: left;
-			height: 40rpx;
+			box-sizing: border-box;
+			padding-left: 15rpx;
+			height: 50rpx;
 			border: 1rpx solid gray;
+			border-right: none;
+			border-radius: 8rpx 0 0 8rpx;
+			font-size: 20rpx;
+			flex: 1;
 		}
+	
 		button {
-			float: left;
+			box-sizing: border-box;
+			border: 1rpx solid gray;
+			border-radius: 0 8rpx 8rpx 0;
+			margin: 0;
+			border-radius: 0;
 			font-size: 20rpx;
 			height: 50rpx;
 		}
 	}
+	
 
 	.desc {
 		margin-top: 20rpx;
