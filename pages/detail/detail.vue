@@ -200,6 +200,7 @@
 					ac: 'detail',
 					ids: id
 				})
+				this.vid = id;
 				this.videoInfo = result.list[0]
 			}
 		}
