@@ -136,7 +136,7 @@ export default {
 		FrImage
 	},
 	onLoad(options){
-		this.category1 = uni.getStorageSync('categoryId')
+		this.category1 = uni.getStorageSync('categoryId') || '0'
 	},
 	methods: {
 		//返回
@@ -288,9 +288,14 @@ export default {
 				color: #fff;
 				display: flex;
 				align-items: center;
+				height: 44rpx; 
+				border-radius: 30rpx; 
+				padding: 0; 
+				border: 0rpx solid #94A8C1; 
+				background-color: transparent;
 				.input{
 					position: relative;
-					background: #6D81E0;
+					background: rgba(109,129,224,.5);
 					width: 120rpx;
 					height: 80rpx;
 					border:0.5rpx solid #7888D0;
@@ -310,7 +315,7 @@ export default {
 						z-index: 2;
 					}
 					.icon{
-						background: #6D81E0;
+						background: rgba(109,129,224,1);
 						width: 50rpx;
 						height: 50rpx;
 						border-radius: 50%;
