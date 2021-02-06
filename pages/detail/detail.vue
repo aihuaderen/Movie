@@ -39,7 +39,7 @@
 			<text class="iconfont icon-jianjie"></text>
 			<text class="title">影片简介</text>
 			<view class="fload" :class="isFload ? 'hide' : 'show'">
-				{{videoInfo.vod_content | filterHtmlTag}}
+				{{videoInfo.vod_content || filterHtmlTag}}
 			</view>
 			<view class="expansion" v-if="arrowShow">
 				<text v-if="isFload" class="iconfont icon-xiangshangjiantouarrowup1" @click="fload"></text>
