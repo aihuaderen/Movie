@@ -166,7 +166,7 @@
 				this.infoList = result.list 
 			},
 			
-			//点击切换达详情列表
+			//点击切换详情列表
 			toInfo(keyValue){
 				//切换页面清空数据
 				this.keyList = []
@@ -185,6 +185,14 @@
 			
 			// 回车事件
 			keyEnter(keyValue){
+				if (!this.keyList.length) {
+					wx.showToast({
+					  title: '未找到内容',
+					  icon: 'loading',
+					  duration: 2000
+					})
+					return
+				}
 				//切换页面清空数据
 				this.keyList = []
 				this.getInfoList(keyValue)
