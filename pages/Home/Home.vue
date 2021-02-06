@@ -176,7 +176,7 @@
 			more(type) {
 				let typeId = this.map.findIndex(item => item===type)
 				uni.setStorageSync('categoryId', typeId)
-				uni.switchTab({
+				wx.reLaunch({
 					url: '/pages/classify/classify'
 				})
 			},
@@ -356,10 +356,11 @@
 					.status {
 						position: absolute;
 						width: 100%;
-						height: 21rpx;
-						left: -6rpx;
-						bottom: 12rpx;
-						font-size: 20rpx;
+						line-height: 32rpx;
+						left: -10rpx;
+						padding-right: 6rpx;
+						bottom: 0;
+						font-size: 22rpx;
 						color: #DD524D;
 						text-align: right;
 						font-weight: 700;
