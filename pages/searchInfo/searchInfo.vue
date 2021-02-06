@@ -21,7 +21,7 @@
 					<p class='address'>{{item.vod_year}}</p>
 				  <p class='actorName'>{{item.vod_actor}}</p>
 					<p >{{item.type.type_name}} -{{item.vod_name}}</p>
-					<button class="iconfont icon-bofang" type="default">立即播放</button>
+					<button class="iconfont icon-bofang" type="default" @click="toDetail(item)">立即播放</button>
 				</view>
 				
 				
@@ -66,6 +66,11 @@
 			let {test} = this.$data
 			let result = await request('/search',{wd:test})
 			this.searchInfo = result.list
+		},
+		toDetail(item){
+			wx.navigateTo({
+				url:`/pages/detail/detail?id=${item.vod_id}&t=${item.type_id}`
+			})
 		}
 		}
 	}

@@ -7,11 +7,13 @@
 		"navigationStyle": "custom"
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		
 		{
-			"path": "pages/index/index",
+			"path": "pages/Home/Home",
 			"style": {}
-		},
+		},{
+			"path": "pages/searchInfo/searchInfo",
+			"style": {}
+		}, 
 		{
 			"path": "pages/detail/detail",
 			"style": {}
@@ -19,42 +21,34 @@
 		 {
 			"path": "pages/category/category",
 			"style": {}
-		}, {
+		}, 
+		{
 			"path": "pages/personal/personal",
 			"style": {}
 		}, {
 			"path": "pages/search/search",
 			"style": {}
-		}, {
-			"path": "pages/searchInfo/searchInfo",
-			"style": {}
 		}, 
-		{
-			"path": "pages/Home/Home",
-			"style": {}
-		},
-		
 		{
 			"path": "pages/Like/Like",
 			"style": {}
-		},
-		
-		{
+		}, {
 			"path": "pages/Play/Play",
 			"style": {}
 		}, {
 			"path": "pages/classify/classify",
 			"style": {}
-		}, {
-			"path": "pages/special/special",
-			"style": {}
 		}
-	],
+	    ,{
+            "path" : "pages/login/login",
+            "style" : {}
+        }
+    ],
 	"tabBar": {
 		"color": "#555",
 		"selectedColor": "#D43C33",
 		"list": [{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/Home/Home",
 				"text": "首页",
 				"iconPath": "/static/images/tabBar/index.png",
 				"selectedIconPath": "/static/images/tabBar/index-current.png"
@@ -70,12 +64,6 @@
 				"text": "搜索",
 				"iconPath": "/static/images/tabBar/search.png",
 				"selectedIconPath": "/static/images/tabBar/search-current.png"
-			},
-			{
-				"pagePath": "pages/special/special",
-				"text": "专题",
-				"iconPath": "/static/images/tabBar/special.png",
-				"selectedIconPath": "/static/images/tabBar/special-current.png"
 			},
 			{
 				"pagePath": "pages/personal/personal",
