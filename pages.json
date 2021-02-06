@@ -10,9 +10,6 @@
 		{
 			"path": "pages/Home/Home",
 			"style": {}
-		},{
-			"path": "pages/searchInfo/searchInfo",
-			"style": {}
 		}, 
 		{
 			"path": "pages/detail/detail",

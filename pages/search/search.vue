@@ -11,8 +11,9 @@
 			</view>
 		</view>
 
-		<!-- 内容展示 -->
-		<view class="contation" v-if="!keyList.length">
+
+		<!-- 页面内容展示 -->
+		<view class="contation" v-if="!keyList.length && !infoList.length">
 
 			<!-- 历史搜索 -->
 			<view class="searchHis" v-show="isHis">
@@ -48,9 +49,31 @@
 		
 		
 		<!-- 搜索关键字内容列表 -->
-		<view class="keyList" v-else>
+		<view class="keyList" v-else-if='keyList.length'>
 			<view class="keyConent">
-				<view class="keyItem" @click="toInfo(item.vod_name)" v-for="item in keyList" :key='item.vod_id'>{{item.vod_name}}</view>
+				<view class="keyItem" @click="toInfo(item.vod_name)" v-for="item in keyList" :key='item.vod_id'>
+					{{item.vod_name}}
+				</view>
+			</view>
+		</view>
+		
+		
+		<!-- 搜索内容展示 -->
+		<view class="searchContainer" v-else>
+			<view class="scrBox">
+				<view class="palyBox" v-for="item in infoList" :key='item.vod_id'>
+					<image :src="item.vod_pic" mode=""></image>
+					<view class="conBox">
+						<view class="textBox">
+							<h2 class='movieName'>{{item.vod_name}}</h2>
+							<span class='scrRight'>{{item.vod_remarks}}</span>
+							<p>{{item.vod_year}}</p>
+							<p>{{item.vod_actor}}</p>
+							<p>{{item.type.type_name}} -{{item.vod_name}}</p>
+						</view>
+						<button type="default" @click='toDetail(item.vod_id, item.type_id)'>立即播放</button>
+					</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -69,6 +92,7 @@
 				searchValue: '', //搜索框查询值
 				keyList: [],  //搜索关键字列表
 				historyList: [], //搜索历史记录
+				infoList: [], //详情列表数据
 				isHis: false, //控制历史记录的显示
 			};
 		},
@@ -107,9 +131,11 @@
 			//点击删除按钮的回调
 			delValue(){
 				//清空输入框
-				this.searchValue = '',
+				this.searchValue = ''
 				//清空索索关键字
 				this.keyList = []
+				//清空详情数据
+				this.infoList = []
 			},
 			
 			//发送请求获取关键字数据
@@ -118,6 +144,7 @@
 				
 				if(!this.searchValue){
 					this.keyList = []
+					this.infoList = []
 					return
 				}
 				console.log(2)
@@ -133,14 +160,18 @@
 			// 	wx.setStorageSync('historyList', this.historyList)
 			},
 			
-			//点击跳转达详情页面
+			//发送请求获取搜索详情数据
+			async getInfoList(value) {
+				const result = await request('/search?', {wd: value})
+				this.infoList = result.list 
+			},
+			
+			//点击切换达详情列表
 			toInfo(keyValue){
-				console.log(keyValue)
-				//跳转页面传递关键字数据到详情页
-				wx.navigateTo({
-					url: '/pages/searchInfo/searchInfo?keyValue=' + keyValue
-				})
-				//点击跳转的关键字存入历史记录
+				//切换页面清空数据
+				this.keyList = []
+				this.getInfoList(keyValue)
+				// //点击跳转的关键字存入历史记录
 				let his = this.historyList
 				//判断关键字历史是否重复
 				if(his.indexOf(keyValue) !== -1){
@@ -154,14 +185,19 @@
 			
 			// 回车事件
 			keyEnter(keyValue){
-				console.log(23333)
-				console.log('2',keyValue)
-				wx.navigateTo({
-						url: '/pages/searchInfo/searchInfo?keyValue=' + keyValue
-				})
-				//存入历史记录
+				//切换页面清空数据
+				this.keyList = []
+				this.getInfoList(keyValue)
+				// //存入历史记录
 				this.historyList.unshift(this.searchValue)
 				wx.setStorageSync('historyList', this.historyList)
+			},
+			
+			//点击详情跳转到视频详情
+			toDetail(id,t){
+				wx.navigateTo({
+					url: '/pages/detail/detail?id=' + id + "&" + "t=" + t
+				})
 			}
 		}
 		
@@ -218,7 +254,7 @@
 	// 内容展示
 	.contation {
 		background: #fff;
-		border-radius: 30rpx;
+		border-radius:30rpx 30rpx 0 0 ;
 		height: 100%;
 		padding: 20rpx;
 	}
@@ -284,36 +320,114 @@
 				flex-wrap: wrap;
 	
 				.movieHot {
-				padding: 10rpx 10rpx 0 10rpx;
-				border-radius: 10rpx;
-				margin-bottom: 30rpx;
-				font-size: 25rpx;
-				background: #F5F3F1;
-				color: #8c8c8c;
-				flex-direction: column;
-				flex-wrap: wrap;
-				justify-content: flex-start;
-				margin-right: 18rpx;
-				white-space: nowrap;
-				}
-			}
-		}
-		
-		
-		.keyList {
-			background: #fff;
-			border-radius: 30rpx;
-			height: 100%;
-			padding: 20rpx;
-			.keyConent {
-				margin-top: 50rpx;
-				.keyItem{
-					border-bottom: 1rpx solid #333333;
-					font-size: 27rpx;
-					padding: 25rpx 0;
+					padding: 10rpx 10rpx 0 10rpx;
+					border-radius: 10rpx;
+					margin-bottom: 30rpx;
+					font-size: 25rpx;
+					background: #F5F3F1;
 					color: #8c8c8c;
+					flex-direction: column;
+					flex-wrap: wrap;
+					justify-content: flex-start;
+					margin-right: 18rpx;
+					white-space: nowrap;
 				}
 			}
 		}
+		
+	// 搜索关键字内容列表
+	.keyList {
+		background: #fff;
+		border-radius:30rpx 30rpx 0 0 ;
+		height: 100%;
+		padding: 20rpx;
+		.keyConent {
+			margin-top: 50rpx;
+			.keyItem{
+				border-bottom: 1rpx solid #333333;
+				font-size: 27rpx;
+				padding: 25rpx 0;
+				color: #8c8c8c;
+			}
+		}
+	}
+		
+	//搜索内容展示
+	.searchContainer {
+		background: #fff;
+		border-radius:30rpx 30rpx 0 0 ;
+		height: 100%;
+		padding: 10rpx;
+		.scrBox {
+			width: 730rpx;
+			margin-top: 40rpx;
+			background: #fff;
+			.palyBox {
+				width: 670rpx;
+				height: 230rpx;
+				background: #F7F7F7;
+				display: flex;
+				border-radius: 20rpx;
+				padding: 20rpx 30rpx;
+				margin-bottom: 10rpx;
+				image {
+					width: 170rpx;
+					height: 234rpx;
+					border-radius: 20rpx;
+					// background: #DD524D;
+					margin-right: 50rpx;
+				}
+				.conBox {
+					padding-top: 5rpx;
+					width: 450rpx;
+					.textBox {
+						height: 150rpx;
+						position: relative;
+						.movieName {
+							display: block;
+							font-size: 35rpx;
+							width: 300rpx;
+							white-space: nowrap;
+							text-overflow: ellipsis;
+							overflow: hidden;
+						}
+						.scrRight {
+							position: absolute;
+							top: 0;
+							left: 300rpx;
+							display: block;
+							width: 150rpx;
+							font-size: 26rpx;
+							white-space: nowrap;
+							text-overflow: ellipsis;
+							overflow: hidden;
+							text-align: right;
+							color: #CF8835;
+						}
+						p {
+							width: 200rpx;
+							font-size: 20rpx;
+							white-space: nowrap;
+							text-overflow: ellipsis;
+							overflow: hidden;
+							margin-top: 10rpx;
+							color: gray;
+						}
+					}
+					button {
+						width: 270rpx;
+						height: 70rpx;
+						margin-top: 10rpx;
+						line-height: 70rpx;
+						float: right;
+						background-color: #F4D13A;
+						text-align: center;
+						font-size: 26rpx
+					}
+				}
+			}
+		}
+		
+	}
 	
 </style>
