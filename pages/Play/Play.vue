@@ -58,7 +58,8 @@
 			</view>
 			<!-- 弹幕 -->
 				<view class="danmuForm">
-					<input v-model="danmuValue"  type="text" placeholder="在此处输入弹幕内容" />
+					<text class=" dicon iconfont icon-danmu1"></text>
+					<input  v-model="danmuValue"  type="text" placeholder="在此处输入弹幕内容" />
 					<button @click="sendDanmu" class="page-body-button">发送弹幕</button>
 				</view>
 			<!-- 弹幕end -->
@@ -510,6 +511,9 @@
 	.danmuForm {
 		height: 60rpx;
 		justify-content: flex-end;
+		.dicon {
+			float: left;
+		}
 		input {
 			float: left;
 			height: 40rpx;
