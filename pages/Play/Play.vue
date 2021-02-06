@@ -77,8 +77,8 @@
 					</view>
 					<!-- 此处用了iconfont图标，自行处理或换成自己的图标-->
 					<view v-if="arrowShow">
-						<view v-if="isFload" class="arrow iconfont icon-arrow-down-bold" @click="fload"></view>
-						<view v-if="!isFload" class="arrow iconfont icon-arrow-down-bold" @click="fload"></view>
+						<view v-if="isFload" class="arrow iconfont icon-arrow-down-bold" @click="fload">展开</view>
+						<view v-if="!isFload" class="arrow iconfont icon-arrow-down-bold" @click="fload">收起</view>
 					</view>
 				</view>
 			</view>

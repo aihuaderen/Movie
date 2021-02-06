@@ -28,7 +28,9 @@
 
 			<view class="filmList">
 				<view class="filmItem" v-for="(items,index) in filmList" :key="items.vod_id" @click="toDetal(items)">
-					<image class="filmpic" :src="items.vod_pic"></image>
+					<view class="imgContainer">
+						<image class="filmpic" :src="items.vod_pic"></image>
+					</view>
 					<text class="tex3">{{items.vod_name}}</text>
 					<view class="score">{{items.vod_score}}</view>
 					<view class="status">{{items.vod_remarks}}</view>
@@ -49,7 +51,10 @@
 
 			<view class="filmList">
 				<view class="filmItem" v-for="(items,index) in filmLxj" :key="items.vod_id" @click="toDetal(items)">
-					<image class="filmpic" :src="items.vod_pic"></image>
+	
+					<view class="imgContainer">
+						<image class="filmpic" :src="items.vod_pic"></image>
+					</view>
 					<text class="tex3">{{items.vod_name}}</text>
 					<view class="score">{{items.vod_score}}</view>
 					<view class="status">{{items.vod_remarks}}</view>
@@ -70,7 +75,10 @@
 
 			<view class="filmList">
 				<view class="filmItem" v-for="items in filmRmzy" :key="items.vod_id" @click="toDetal(items)">
-					<image class="filmpic" :src="items.vod_pic"></image>
+					
+					<view class="imgContainer">
+						<image class="filmpic" :src="items.vod_pic"></image>
+					</view>
 					<text class="tex3">{{items.vod_name}}</text>
 					<view class="score">{{items.vod_score}}</view>
 					<view class="status">{{items.vod_remarks}}</view>
@@ -90,7 +98,10 @@
 
 			<view class="filmList">
 				<view class="filmItem" v-for="item in filmDmdh" :key="item.vod_id" @click="toDetal(item)">
-					<image class="filmpic" :src="item.vod_pic"></image>
+					
+					<view class="imgContainer">
+						<image class="filmpic" :src="item.vod_pic"></image>
+					</view>
 					<text class="tex3">{{item.vod_name}}</text>
 					<view class="score">{{item.vod_score}}</view>
 					<view class="status">{{item.vod_remarks}}</view>
@@ -307,12 +318,19 @@
 					text-align: center;
 					position: relative;
 					border-radius: 10rpx;
-
-					.filmpic {
-						width: 100%;
-						height: 100%;
+					
+					.imgContainer{
+						width: 220rpx;
+						height: 300rpx;
 						border-radius: 10rpx;
-					}
+						background-color: rgba(0,0,0,.1);
+						border: 1px solid hsla(0, 0%, 100%, 0.8);
+						.filmpic {
+							width: 220rpx;
+							height: 300rpx;
+							border-radius: 10rpx;
+						}
+					}	
 
 					.tex3 {
 						display: block;

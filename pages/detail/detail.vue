@@ -42,8 +42,8 @@
 				{{videoInfo.vod_content | filterHtmlTag}}
 			</view>
 			<view class="expansion" v-if="arrowShow">
-				<text v-if="isFload" class="iconfont icon-xiangshangjiantouarrowup1" @click="fload"></text>
-				<text v-if="!isFload" class="iconfont icon-xiangshangjiantouarrowup" @click="fload"></text>
+				<text v-if="isFload" class="iconfont icon-xiangshangjiantouarrowup1" @click="fload">展开</text>
+				<text v-if="!isFload" class="iconfont icon-xiangshangjiantouarrowup" @click="fload">收起</text>
 			</view>
 		</view>
 		<!-- 精彩推荐 -->
