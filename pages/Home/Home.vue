@@ -7,7 +7,7 @@
 			<swiper class="swr" @change="swiperChange" circular="true" snap-to-edge="true" previous-margin="220rpx" next-margin="150rpx"
 			 :autoplay="true" :interval="3000" :duration="1000">
 				<swiper-item class="conImg" v-for="(item,index) in banner" :key="item.type_id">
-					<view :class="{active : swiperIndex == index}">
+					<view :class="{active : swiperIndex == index}" @click="toDetal(item)">
 						<image class="cImg" :src="item.vod_pic"></image>
 						<view class="mvName">{{item.vod_name}}</view>
 					</view>
@@ -117,6 +117,9 @@
 			}
 		},
 		mounted() {
+			uni.showLoading({
+				title: '加载中...'
+			})
 			this.getInitData()
 		},
 		methods: {
@@ -137,10 +140,11 @@
 				})
 				let filmList = result.list.slice(0, 6)
 				this.filmList = filmList
-
+				uni.hideLoading()
 				result = await request('/vod/', {
 					t: 2
 				})
+				
 				let filmLxj = result.list.slice(0, 6)
 				this.filmLxj = filmLxj
 

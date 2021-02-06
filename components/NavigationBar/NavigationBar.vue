@@ -32,8 +32,8 @@
 			// 自定义导航栏返回首页
 			onhome() {
 				uni.switchTab({
-					url: '/pages/index/index'
-				});
+					url: '/pages/Home/Home'
+				})
 			},
 		}
 	}
