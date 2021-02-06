@@ -9,7 +9,7 @@
 					<button plain class="common iconfont icon-shoucang" :class="{active:activeTab === 'star'}" @click="toggle('star')">收藏</button>
 				</view>
 			</view>
-			<view class="content" v-show="activeTab === 'history'">
+			<view class="content" v-if="activeTab === 'history'">
 				<scroll-view v-if="historyList.length" v-for="item in historyList" :key="item.vod_id" class="scroll" scroll-y="true">
 					<view class="scrollItem">
 						<image class="leftImage" :src="item.vod_pic" mode=""></image>
@@ -81,6 +81,7 @@
 			},
 			//获取收藏信息
 			async getVideoList(ids, tab) {
+				if(!ids) return
 				let result = await request(`/vod?ids=${ids}`)
 				if(tab === 'star') {
 					this.collectList = result.list
