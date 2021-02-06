@@ -352,7 +352,7 @@
 		.keyConent {
 			margin-top: 50rpx;
 			.keyItem{
-				border-bottom: 1rpx solid #333333;
+				border-bottom: 1rpx solid #ccc;
 				font-size: 27rpx;
 				padding: 25rpx 0;
 				color: #8c8c8c;
