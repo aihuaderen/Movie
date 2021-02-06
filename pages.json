@@ -33,10 +33,13 @@
 			"path": "pages/Home/Home",
 			"style": {}
 		},
+		
 		{
 			"path": "pages/Like/Like",
 			"style": {}
-		}, {
+		},
+		
+		{
 			"path": "pages/Play/Play",
 			"style": {}
 		}, {
